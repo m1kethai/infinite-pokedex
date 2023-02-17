@@ -1,11 +1,12 @@
 {
   "name": "react-infinite-pokedex",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-dbg": "vite build --debug",
     "preview": "vite preview"
   },
   "dependencies": {
