@@ -1,8 +1,14 @@
 @import 'bulma/bulma'; // TODO: TMP
 
-.pd-body {
-    width: 50rem;
-    height: 60rem;
+h1,
+h2,
+h3 {
+  color: white
+}
 
-    background-color: rgb(186, 29, 29);
+.pd-body {
+  width: 50rem;
+  height: 60rem;
+
+  background-color: rgb(186, 29, 29);
 }
