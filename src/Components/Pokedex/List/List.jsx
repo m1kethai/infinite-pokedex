@@ -9,51 +9,57 @@ import './list.scss'
 const listItemHeight = "30px";
 const fetchNextItemsOffset = listItemHeight * 5;
 
-function List( props ) {
+
+function List({
+  pokeArray
+}) {
 
   let
-    newestPokes = props.pokes,
-    oldestPokes = props.oldPokes,
-    loadedPokes = [ ...newestPokes, ...oldestPokes ],
-    loadedPokeCount,
-    listScrollPosition,
+    data,
     isLoading; //# pass this up to pokedex?
 
-  console.error(`🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨
-    newestPokes =>
-    ${newestPokes}
-  `);
+  const getListRows = listItems => {
+    // console.log("🚀🚀🚀  getListRows  arguments", arguments);
 
-  console.error(`🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨~🧮~🧨
-    oldestPokes =>
-    ${oldestPokes}
-  `);
+    // const
+    //   pages = _.keys( listData ),
+    //   items = [];
 
-  //* compose full list with 4(?) separate sub-components:
-  //*   1) all currently loaded pokes
-  //*     1a) top - 30th-60th recently loaded
-  //*     1b) bottom - 1-30 most recently loaded
-  //*   2) next 30 pokes
+    //   _.each( pages, page => {
+    //     items.push( listData[ page ]);
+    //   });
 
-  const visibleListItems = ( top, bottom ) => {
-    console.log("🚀🚀🚀  visibleListItems  arguments", arguments);
+    //   return items;
+// console.log( `_.flatten( listData )`, JSON.stringify(_.flatten( listData ), undefined, 2) );
+// debugger;
+    // return _.flatten( listData );
 
-    const items = [
-      ..._.map( top, p => <ListItem poke={ p }/>),
-      ..._.map( bottom, p => <ListItem poke={ p }/>)
-    ];
+    // _.each( listData, ( pages, p ) => {
 
-    // debugger;
+    const group = _.map( listItems, p =>
+      <ListItem
+        key={ p.id }
+        name={ p.name }
+        id={ p.id }
+        imageUrl={ p.url }
+        // details={ p.details }
+      />
+    );
+    return group;
+    // });
+// console.log( `items`, JSON.stringify(items, undefined, 2) );
 
-    console.info("🚀🚀🚀  visibleListItems  items", items);
-
-    return items;
   }
 
   return (
-    <div className="container list">
-      <h2>LIST</h2>
-      { visibleListItems( oldestPokes, newestPokes ) }
+    <div className="list">
+      {/* <h2>LIST</h2> */}
+      {/* <ListItem
+        pokeArray=
+      /> */}
+      <ul className="list">
+        { getListRows( pokeArray ) }
+      </ul>
     </div>
   )
 }

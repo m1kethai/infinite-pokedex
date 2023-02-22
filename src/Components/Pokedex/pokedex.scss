@@ -6,9 +6,20 @@ h3 {
   color: white
 }
 
-.pd-body {
-  width: 50rem;
-  height: 60rem;
+.pd {
+  &-body {
+    width: 50rem;
+    height: 60rem;
 
-  background-color: rgb(186, 29, 29);
+    background-color: rgb(186, 29, 29);
+  }
+
+  &-screen {
+    max-height: 40rem;
+    display: flex;
+    flex-direction: column;
+    background: rgba(90, 106, 99, 0.8);
+    border: 2px solid black;
+    overflow: scroll;
+  }
 }

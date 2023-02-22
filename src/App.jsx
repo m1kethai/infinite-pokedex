@@ -1,32 +1,21 @@
-// import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-//* Components
 import Pokedex from '@/Pokedex/Pokedex.jsx'
-//* Styles
-import './main.scss'
+import './base-styles.scss'
 
-// import { usePokeDataStore } from '~/store/pokestore.js'
 
-// ================================================
+const queryClient = new QueryClient();
 
 function App() {
-  //; full state for testing
-  // const appState = usePokeDataStore( state => state );
-
-  // console.info(`ℹ️~🧮~ℹ️~🧮~ℹ️~🧮~ℹ️~🧮~ℹ️~🧮~ℹ️~🧮~ℹ️
-  //   loadedPokes, activePokeName =>
-  //   ${loadedPokes, activePokeName}
-  // `);
-
   return (
-    <div className="App">
-
+    <QueryClientProvider client={queryClient}>
       <div className="logo"></div>
-
       <div className="pokedex-wrapper">
         <Pokedex/>
       </div>
-    </div>
+      <ReactQueryDevtools initialIsOpen />
+    </QueryClientProvider>
   )
 }
 
