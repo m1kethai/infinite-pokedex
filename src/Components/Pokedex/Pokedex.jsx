@@ -81,6 +81,7 @@ function Pokedex() {
   //   return pokemonInfo;
   // };
 
+  //* Initial Fetch on Load:
   const {
     status,
     data,
@@ -98,11 +99,17 @@ function Pokedex() {
         //   console.log( `select` );
         // }),
         onSuccess: data => {
-          // console.log( `onSuccess - data`, data );
           console.error("🚀🚀🚀 ~ onSuccess ~ data", data);
+
+          setPagesLoaded( pgs => {
+              if ( data.pageParams.length !== pagesLoaded + 1 )
+                debugger;
+
+              else setPagesLoaded( data.pageParams.length );
+          });
         },
 
-        getNextPageParam: ( lastPage, allPages ) => {
+        getNextPageParam: ( lastPage ) => {
           const nextPageParam = lastPage.pageNo + 1;
           console.info("🚀🚀🚀 useInfiniteQuery ~ nextPageParam", nextPageParam);
           return nextPageParam;
@@ -111,17 +118,16 @@ function Pokedex() {
         //   const ppp = firstPage.pageNo - 1;
         //   console.error("🚀🚀🚀 ~ Pokedex ~ ppp", ppp);
         //   return ppp;
-
         // },
         // useErrorBoundary
         // suspense
       }
     );
 
-  const handleScroll = (event) => {
+  const handleScroll = ev => {
     // console.count(`handleScroll`);
 
-    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+    const { scrollTop, clientHeight, scrollHeight } =ev.currentTarget;
     if (scrollHeight - (scrollTop + clientHeight) < 200 && hasNextPage) {
       console.log( `fetchNextPage` );
       debugger;
@@ -179,11 +185,6 @@ function Pokedex() {
     // return pokemonDetails;
   }
 
-  function loadNext() {
-    console.log(`loadNext =>`);
-    fetchNextPage();
-  }
-
   function resetList() {
     console.log(`resetList =>`);
   }
@@ -200,12 +201,10 @@ function Pokedex() {
       <div className="pd-body container">
 
         {
-          isFetching && (
-            <div className="notification is-warning">
-              <button className="delete"></button>
-              FETCHING
-            </div>
-          )
+          isFetching && (<div className="notification is-warning">
+                            <button className="delete"></button>
+                            FETCHING
+                          </div>)
         }
 
         <div className="buttons">
@@ -217,7 +216,7 @@ function Pokedex() {
           <a
             className={ btnClasses( 'loadMore' )}
             onClick={ fetchNextPage }>
-            { data && !isLoading ? "LOAD NEXT" : "NO DATA" }
+            { data && !isLoading ? "LOAD NEXT" : "NO MORE 2 LOAD" }
           </a>
           <a
             className={ btnClasses( 'danger' )}
@@ -235,7 +234,6 @@ function Pokedex() {
         </div>
 
       </div>
-      {isFetchingNextPage && <div>Loading more Pokemon...</div>}
     </div>
   );
 }
