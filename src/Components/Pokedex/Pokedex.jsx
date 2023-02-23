@@ -4,7 +4,6 @@ import * as _ from "lodash-es";
 
 import List from "./List/List";
 import "./pokedex.scss";
-// import { usePokemonStore } from "../../store/pokemonStore.js";
 
 const FETCH_LIMIT = 30;
 const MAX_POKEMON = 1500;
