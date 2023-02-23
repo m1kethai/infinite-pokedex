@@ -1,3 +1,7 @@
-.list {
-  border: 2px black;
+ul {
+  width: 100%;
+  flex-direction: column;
+  align-self: center;
+  border-left: 20px solid #2e2d2d;
+  border-right: 20px solid #2e2d2d;
 }

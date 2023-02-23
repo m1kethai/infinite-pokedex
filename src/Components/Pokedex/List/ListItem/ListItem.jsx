@@ -1,23 +1,41 @@
 import './list-item.scss'
 
-function ListItem( props ) {
-  // console.log("🚀🚀🚀  ListItem  props", props);
+function ListItem({
+  name,
+  id,
+  imageUrl,
+  // details
+  loading
+}) {
+  // console.log("🚀🚀🚀  ListItem  name", name);
+  // console.log("🚀🚀🚀  ListItem  type", type);
 
-  const { name, type } = props.poke;
-
-  console.log("🚀🚀🚀  ListItem  name", name);
-  console.log("🚀🚀🚀  ListItem  type", type);
+  function pokemonInfo() {
+    return (<>
+        <h2 className="name">
+          { name }
+        </h2>
+        <h3 className="id">
+          #{ id }
+        </h3>
+        {/* <h3>{ type }</h3> */}
+      </>)
+  }
 
   return (
-    <div className="list-item">
+    <li className="list-item">
 
-      <h2>==========</h2>
-
-      <div className="poke-info">
-        <h3>{ name }</h3>
-        <h3>{ type }</h3>
+      <div className="image-container">
       </div>
-    </div>
+
+      <div className="pokemon-info">
+        {
+          !loading
+            ? pokemonInfo()
+            : (<h1>PLACEHOLDER</h1>)
+        }
+      </div>
+    </li>
     )
   }
 
