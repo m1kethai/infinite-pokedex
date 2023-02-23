@@ -11,17 +11,20 @@ const MAX_POKEMON = 1500;
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 
 
-
-function Pokedex() {
+function Pokedex({ clearCache }) {
 
   const [ pagesLoaded, setPagesLoaded ] = useState( 0 );
-  // const [ pagesFetched, setPagesFetched ] = useState( 0 );
-  const [ listProps, setlistProps ] = useState( null );
+  const [ totalPokeCount, updateTotalPokeCount ] = useState( 0 );
+
+  // const [ listProps, setlistProps ] = useState( null );
 
   //* Initial pokemon fetch after mount:
-  // useEffect(() => {
-  //   if ( !data ) return
-  // }, [pagesLoaded ])
+  useEffect(() => {
+    if ( !data )
+      console.count("🚀🚀🚀 ~ useEffect -- NO DATA");
+
+    else console.count("🚀🚀🚀 ~ useEffect -- DATA");
+  }, [])
 
   // useEffect(() => {
   //   console.error("🚀🚀🚀 ~ useEffect ~ pagesFetched", pagesFetched);
@@ -49,6 +52,10 @@ function Pokedex() {
   //   state.addPokemons
   // ]);
 
+  const parsePokeBatch = () => {
+
+  };
+
   const fetchPokemonPage = async ({ pageParam = 1 }) => {
     console.log( `fetchPokemonPage ~ pageParam => ${pageParam}` );
     const offset = ( pageParam * FETCH_LIMIT ) - FETCH_LIMIT; // pg 1 = offset 0, pg 2 = offset 30, etc.
@@ -58,7 +65,7 @@ function Pokedex() {
     const response = await fetch( fetchUrl );
     if (!response.ok) {
       debugger;
-      throw new Error("Failed to fetch Pokemon batch");
+      throw new Error( "Failed to fetch Pokemon entries" );
     }
     const data = await response.json();
     console.assert( !!data, `✅ data => ${data}` );
@@ -93,7 +100,10 @@ function Pokedex() {
     // hasPreviousPage,
     // fetchPreviousPage,
     // isFetchingPreviousPage,
-    } = useInfiniteQuery([ 'pokeData' ], fetchPokemonPage, {
+    } = useInfiniteQuery({
+        queryKey: [ 'pokeData' ],
+        queryFn: fetchPokemonPage,
+        refetchOnWindowFocus: false,
 
         // select: data => ({
         //   console.log( `select` );
@@ -101,17 +111,18 @@ function Pokedex() {
         onSuccess: data => {
           console.error("🚀🚀🚀 ~ onSuccess ~ data", data);
 
-          setPagesLoaded( pgs => {
-              if ( data.pageParams.length !== pagesLoaded + 1 )
-                debugger;
+          if ( data.pageParams.length !== pagesLoaded + 1 ) {
+            console.error("🚀🚀🚀 ~ Pokedex ~ data.pageParams.length !== pagesLoaded + 1", data.pageParams.length !== pagesLoaded + 1);
+            // debugger;
+          }
 
-              else setPagesLoaded( data.pageParams.length );
-          });
+          else setPagesLoaded( data.pageParams.length );
+
+          updateTotalPokeCount( t => FETCH_LIMIT * data.pageParams.length )
         },
-
         getNextPageParam: ( lastPage ) => {
           const nextPageParam = lastPage.pageNo + 1;
-          console.info("🚀🚀🚀 useInfiniteQuery ~ nextPageParam", nextPageParam);
+          // console.info("🚀🚀🚀 useInfiniteQuery ~ nextPageParam", nextPageParam);
           return nextPageParam;
         },
         // getPreviousPageParam: (firstPage, lastPage, allPages) => {
@@ -124,36 +135,43 @@ function Pokedex() {
       }
     );
 
-  const handleScroll = ev => {
-    // console.count(`handleScroll`);
+  function handleScroll( ev ) {
+    const {
+      scrollTop,
+      clientHeight,
+      scrollHeight
+    } = ev.currentTarget;
+    const bottomReached = scrollHeight - ( scrollTop + clientHeight ) < 5;
 
-    const { scrollTop, clientHeight, scrollHeight } =ev.currentTarget;
-    if (scrollHeight - (scrollTop + clientHeight) < 200 && hasNextPage) {
-      console.log( `fetchNextPage` );
-      debugger;
+    if ( scrollHeight - ( scrollTop + clientHeight ) < 100 )
+      console.info(`🚀🚀🚀 ~ handleScroll ~ < 100 ~ ${ scrollHeight - ( scrollTop + clientHeight )}`);
 
-      fetchNextPage();
+      if ( bottomReached && hasNextPage && !isFetching ) {
+      console.info(`🚀🚀🚀 ~ handleScroll ~ ${scrollTop} ${clientHeight} ${scrollHeight}`);
+
+      fetchNextPage()
+      // _.throttle( () => fetchNextPage(), 5 );
     }
-  };
-
-  const btnClasses = btn => {
-    switch ( btn ) {
-      case 'info':
-        return 'button is-info';
-      case 'loadMore':
-        return 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' );
-      case 'danger':
-        return 'button is-danger';
-      case 'success':
-        return 'button is-success';
-      default:
-        return 'button';
-      }
   }
 
-  function createListProps( pokeData ) {
+  // const btnClasses = btn => {
+  //   switch ( btn ) {
+  //     case 'info':
+  //       return 'is-info';
+  //     case 'loadMore':
+  //       return 'is-light ' + ( isLoading ? ' is-loading' : 'is-warning' );
+  //     case 'danger':
+  //       return 'is-danger';
+  //     case 'success':
+  //       return 'is-success';
+  //     default:
+  //       return 'button';
+  //     }
+  // }
+
+  function parsedResponse( resData ) {
     const parsed = _.flattenDeep(
-      _.map( pokeData.pages, page =>
+      _.map( resData.pages, page =>
         _.map( page.pokemon, pokemon => ({
           name: _.capitalize( pokemon.name ),
           url: pokemon.url,
@@ -162,8 +180,12 @@ function Pokedex() {
       ))
     )
 
+    return parsed;
+  }
+
+  // function getListProps( pokeData ) {
+
       // console.log(`parsed`, JSON.stringify(parsed, undefined, 2));
-      return parsed;
 
     // const pokemonDetails = d.pages.map((page, index) => (
     //   <li key={index}>
@@ -183,10 +205,11 @@ function Pokedex() {
     // ))
 
     // return pokemonDetails;
-  }
+  // }
 
   function resetList() {
     console.log(`resetList =>`);
+    clearCache();
   }
 
   if (error) return <div>Error fetching Pokemon data</div>;
@@ -202,25 +225,25 @@ function Pokedex() {
 
         {
           isFetching && (<div className="notification is-warning">
-                            <button className="delete"></button>
-                            FETCHING
-                          </div>)
+                          <button className="delete"></button>
+                          FETCHING
+                        </div>)
         }
 
-        <div className="buttons">
+        <div className="pd-buttons">
           {/* <a
             className={ btnClasses( 'info' )}
             onClick={ ()=>{} }>
             { data ? "LOAD" : "NO DATA" }
           </a> */}
           <a
-            className={ btnClasses( 'loadMore' )}
+            className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
             onClick={ fetchNextPage }>
-            { data && !isLoading ? "LOAD NEXT" : "NO MORE 2 LOAD" }
+            { data && !isLoading && hasNextPage ? "LOAD NEXT" : "NO MORE 2 LOAD" }
           </a>
           <a
-            className={ btnClasses( 'danger' )}
-            onClick={resetList}>
+            className="button is-danger"
+            onClick={ resetList }>
             RESET LIST
           </a>
         </div>
@@ -228,11 +251,21 @@ function Pokedex() {
 
         <div
           className="pd-screen"
-          onScroll={handleScroll}
+          onScroll={ handleScroll }
         >
-          <List pokeArray={ createListProps( data ) }/>
-        </div>
+          {
+            data ? (
+              <List
+                pokemonData={ parsedResponse( data )}
+                pokemonCount={ totalPokeCount }
+                loadingNextSet={ isFetchingNextPage }
+              ></List>
+            ) : (
+              <h1>NO POKEMONS YET</h1>
+            )
+          }
 
+        </div>
       </div>
     </div>
   );
