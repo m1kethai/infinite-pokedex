@@ -10,19 +10,23 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // 5 sec. fetch buffer for dedupe
-      staleTime: 5000,
-    },
-  },
+      staleTime: 5000
+    }
+  }
 })
+
+function clear() {
+  queryClient.clear();
+}
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={ queryClient }>
       <div className="logo"></div>
       <div className="pokedex-wrapper">
-        <Pokedex/>
+        <Pokedex clearCache={ clear } />
       </div>
-      <ReactQueryDevtools initialIsOpen />
+      <ReactQueryDevtools initialIsOpen/>
     </QueryClientProvider>
   )
 }
