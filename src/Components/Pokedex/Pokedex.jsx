@@ -23,36 +23,10 @@ function Pokedex({ clearCache }) {
       console.count("🚀🚀🚀 ~ useEffect -- NO DATA");
 
     else console.count("🚀🚀🚀 ~ useEffect -- DATA");
+    //     const pokemonList = _.flatMap( data.pages, page => page.pokemon);
   }, [])
 
-  // useEffect(() => {
-  //   console.error("🚀🚀🚀 ~ useEffect ~ pagesFetched", pagesFetched);
-  //   if ( pagesFetched >= 1 && data ) {
-  //     // console.error(`🪵~🧮~🪵~🧮~🪵~🧮~🪵~🧮~🪵~🧮~🪵~🧮~🪵
-  //     //   data =>
-  //     //   ${data}
-  //     // `);
-
-  //     // const pokemonList = data.pages.flatMap((page) => page.pokemon);
-  //     // const pokemonList = data.pages.map((page) => page.pokemon);
-  //     const pokemonList = _.flatMap( data.pages, page => page.pokemon);
-
-  //     // addPokemons( pokemonList );
-  //     // console.error("🚀🚀🚀 ~ useEffect ~ pokemonList", pokemonList);
-
-  //     // console.log( `useEffect pokemons`, JSON.stringify(pokemons, undefined, 2) );
-
-  //     console.error("🚀🚀🚀 ~ useEffect");
-  //   }
-  // }, [pagesFetched]);
-
-  // const [pokemons, addPokemons] = usePokemonStore((state) => [
-  //   state.pokemons,
-  //   state.addPokemons
-  // ]);
-
   const parsePokeBatch = () => {
-
   };
 
   const fetchPokemonPage = async ({ pageParam = 1 }) => {
@@ -104,9 +78,9 @@ function Pokedex({ clearCache }) {
         queryFn: fetchPokemonPage,
         refetchOnWindowFocus: false,
 
-        // select: data => ({
-        //   console.log( `select` );
-        // }),
+        select: data => ({
+          console.log( `select` );
+        }),
         onSuccess: data => {
           console.error("🚀🚀🚀 ~ onSuccess ~ data", data);
 
@@ -143,30 +117,15 @@ function Pokedex({ clearCache }) {
     const bottomReached = scrollHeight - ( scrollTop + clientHeight ) < 5;
 
     if ( scrollHeight - ( scrollTop + clientHeight ) < 100 )
-      console.info(`🚀🚀🚀 ~ handleScroll ~ < 100 ~ ${ scrollHeight - ( scrollTop + clientHeight )}`);
+      // console.info(`🚀🚀🚀 ~ handleScroll ~ < 100 ~ ${ scrollHeight - ( scrollTop + clientHeight )}`);
 
       if ( bottomReached && hasNextPage && !isFetching ) {
       console.info(`🚀🚀🚀 ~ handleScroll ~ ${scrollTop} ${clientHeight} ${scrollHeight}`);
 
+      // _.throttle( () => fetchNextPage(), 5 ); //! not working
       fetchNextPage()
-      // _.throttle( () => fetchNextPage(), 5 );
     }
   }
-
-  // const btnClasses = btn => {
-  //   switch ( btn ) {
-  //     case 'info':
-  //       return 'is-info';
-  //     case 'loadMore':
-  //       return 'is-light ' + ( isLoading ? ' is-loading' : 'is-warning' );
-  //     case 'danger':
-  //       return 'is-danger';
-  //     case 'success':
-  //       return 'is-success';
-  //     default:
-  //       return 'button';
-  //     }
-  // }
 
   function parsedResponse( resData ) {
     const parsed = _.flattenDeep(
@@ -184,7 +143,7 @@ function Pokedex({ clearCache }) {
 
   // function getListProps( pokeData ) {
 
-      // console.log(`parsed`, JSON.stringify(parsed, undefined, 2));
+    // console.log(`parsed`, JSON.stringify(parsed, undefined, 2));
 
     // const pokemonDetails = d.pages.map((page, index) => (
     //   <li key={index}>
@@ -192,7 +151,6 @@ function Pokedex({ clearCache }) {
     //       <div key={pokemon.name}>
 
     //         <img
-    //           // src={`https://img.pokemondb.net/sprites/home/normal/${pokemon.name}.png`}
     //           src={`https://img.pokemondb.net/sprites/home/normal/${pokemon.name}.png`}
     //           alt={`${pokemon.name} sprite`}
     //         />
@@ -202,7 +160,6 @@ function Pokedex({ clearCache }) {
     //     )}
     //   </li>
     // ))
-
     // return pokemonDetails;
   // }
 
@@ -214,7 +171,7 @@ function Pokedex({ clearCache }) {
   if (error) return <div>Error fetching Pokemon data</div>;
   if (!data) return <div>Loading...</div>;
 
-  const isLoading = status === 'loading';
+  const isLoading = ( status === 'loading' );
 
   return (
     <div className="pokedex">
@@ -223,18 +180,14 @@ function Pokedex({ clearCache }) {
       <div className="pd-body container">
 
         {
-          isFetching && (<div className="notification is-warning">
-                          <button className="delete"></button>
-                          FETCHING
-                        </div>)
+          isFetching && (
+            <div className="notification is-warning">
+              <button className="delete"></button>
+              FETCHING
+            </div>)
         }
 
         <div className="pd-buttons">
-          {/* <a
-            className={ btnClasses( 'info' )}
-            onClick={ ()=>{} }>
-            { data ? "LOAD" : "NO DATA" }
-          </a> */}
           <a
             className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
             onClick={ fetchNextPage }>
