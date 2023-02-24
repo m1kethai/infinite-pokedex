@@ -6,8 +6,12 @@ import App from './App'
 
 ReactDOM
   .createRoot( document.getElementById( 'root' ))
-  .render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  )
+  .render( <App /> ) //! TEMP
+
+// ReactDOM
+//   .createRoot( document.getElementById( 'root' ))
+//   .render(
+//     <React.StrictMode>
+//       <App/>
+//     </React.StrictMode>
+//   )
