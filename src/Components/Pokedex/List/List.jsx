@@ -15,10 +15,11 @@ const fetchNextItemsOffset = listItemHeight * 5;
 
 function List({
   pokemonData,
-  pokemonCount,
-  loadingNextSet //* for placeholder/skeleton list item
+  // pokemonCount,
+  // loadingNextSet //* for placeholder/skeleton list item
 }) {
   // const [ loadingMore, setLoadingMore ] = useState( false );
+  // const [ parsedBasicInfo, setParsedBasicInfo ] = useState( false );
 
   useEffect(() => {
     // console.count("🚀🚀🚀 ~ List ~ useEffect");
@@ -29,21 +30,46 @@ function List({
 
   }, [ pokemonData ]);
 
-  const listChunk = items => {
+  const getListItems = ( data ) => {
+    console.error("🚀🚀🚀 ~ getListItems ~ data:", data);
 
-    const chnk = _.map( items, p => (
+    const pokemonId = _.nth( _.split( url, "/" ), -2 );
+
+    const listItemProps = {
+      name: _.capitalize( name ),
+      key: pokemonId,
+      id: pokemonId,
+      imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ pokemonId }.png`,
+      loading: false
+    }
+
+    return _.map( listItemProps, item => (
       <ListItem
-        key={ p.id }
-        name={ p.name }
-        id={ p.id }
-        imageUrl={ p.url }
-        // details={ p.details }
+        name={ item.name }
+        key={ item.id }
+        id={ item.id }
+        imageUrl={ item.url }
+        // details={ item.details }
         loading={ false }
       />
-    ));
+    ))
 
-    return chnk;
-  }
+  };
+
+  // const listChunk = items => {
+  //   const chnk = _.map( items, p => (
+  //     <ListItem
+  //       key={ p.id }
+  //       name={ p.name }
+  //       id={ p.id }
+  //       imageUrl={ p.url }
+  //       // details={ p.details }
+  //       loading={ false }
+  //     />
+  //   ));
+
+  //   return chnk;
+  // }
 
   // const placeholderItem = () => {
   //   <ListItem showPlaceholderItem={ loadingNextSet }/>
@@ -87,7 +113,7 @@ function List({
 
       <ul className="list">
         {
-          pokemonData && listChunk( pokemonData )
+          pokemonData && getListItems( pokemonData )
         }
         {
           loadingNextSet && (<ListItem loadingPlaceholder />)
