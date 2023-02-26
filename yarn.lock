@@ -388,6 +388,18 @@
     "@tanstack/query-core" "4.24.10"
     use-sync-external-store "^1.2.0"
 
+"@tanstack/react-virtual@^3.0.0-beta.52":
+  version "3.0.0-beta.52"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.0.0-beta.52.tgz#cbc8e4e6dfb664029bc0062915618758fca95783"
+  integrity sha512-8CahZpH2CV3gRj02MVxOfw561n0yHAuW5D8YW8YyZ8GRZTKnbF4boijc+gy8jn8hiHMTvS5AQvdjf4RkOIl8Yw==
+  dependencies:
+    "@tanstack/virtual-core" "3.0.0-beta.52"
+
+"@tanstack/virtual-core@3.0.0-beta.52":
+  version "3.0.0-beta.52"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.0.0-beta.52.tgz#5375bef6f14926b75e77bd2b0060e8606a4dc881"
+  integrity sha512-70208CgTPIf6tonbl2wmpGpeZ9geflhZKMMPddBG2dbF5XUkmuskdWDXG/H/x/Uv/K3bphl/FpbClts5GfdedA==
+
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
