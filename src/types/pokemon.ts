@@ -1,10 +1,22 @@
-interface RootObject {
+interface PokemonPageFetchResponse {
+  count: number;
+  next: string;
+  previous?: any;
+  results: PagePokemonResult[];
+}
+
+interface PagePokemonResult {
+  name: string;
+  url: string;
+}
+
+interface PokemonPropertiesList {
   abilities: Ability2[];
   base_experience: number;
   forms: Ability[];
   game_indices: Gameindex[];
   height: number;
-  held_items: any[];
+  held_items: Helditem[];
   id: number;
   is_default: boolean;
   location_area_encounters: string;
@@ -187,6 +199,16 @@ interface Versiongroupdetail {
   version_group: Ability;
 }
 
+interface Helditem {
+  item: Ability;
+  version_details: Versiondetail[];
+}
+
+interface Versiondetail {
+  rarity: number;
+  version: Ability;
+}
+
 interface Gameindex {
   game_index: number;
   version: Ability;
@@ -201,4 +223,9 @@ interface Ability2 {
 interface Ability {
   name: string;
   url: string;
+}
+
+export {
+  PokemonPageFetchResponse,
+  PagePokemonResult
 }

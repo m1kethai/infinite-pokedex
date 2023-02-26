@@ -3,14 +3,14 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import dns from 'dns'
 
-dns.setDefaultResultOrder('verbatim')
+dns.setDefaultResultOrder( 'verbatim' )
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [ react() ],
   resolve:{
     alias:{
-      '~' : path.resolve(__dirname, './src'),
-      '@' : path.resolve(__dirname, './src/Components')
+      '&' : path.resolve( __dirname, './src/hooks' ),
+      '~' : path.resolve( __dirname, './src/Components' )
     },
   },
   css: {

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import * as _ from "lodash-es";
 
+import { usePokemonData } from "../../hooks/usePokemonData";
 import List from "./List/List";
 import "./pokedex.scss";
 
