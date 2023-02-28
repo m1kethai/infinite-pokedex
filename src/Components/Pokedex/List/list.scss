@@ -1,7 +1,70 @@
-ul {
+.pokemon-list {
   width: 100%;
   flex-direction: column;
   align-self: center;
-  border-left: 20px solid #2e2d2d;
-  border-right: 20px solid #2e2d2d;
+  // border-left: 20px solid #2e2d2d;
+  // border-right: 20px solid #2e2d2d;
+
+  &__row {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 1em;
+    // box-shadow: rgba(162, 157, 155, 0.15) 0px 0px 50px 20px inset;
+    box-shadow: rgba(162, 157, 155, 0.3) 0px 0px 40px 5px inset;
+    border: 1px solid rgba(151, 151, 151, 0.34);
+  }
+}
+
+.poke-row {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: stretch;
+  // flex: 1;
+  // flex-direction: row-reverse;
+  // border: 1px dashed #978787;
+  // height: 5rem;
+  // padding: 0.5em;
+}
+
+.poke-info {
+  display: flex;
+  flex-direction: column;
+  // flex: 1%;
+  height: 100%;
+  text-align: left;
+
+  > span {
+    color: white;
+
+    &.name {
+      font-size: 1.75em;
+      font-weight: bold;
+    }
+
+    &.id {
+      font-size: 1.5em;
+    }
+    &.types {
+      font-size: 1.25em;
+      font-style: italic;
+    }
+  }
+}
+
+.poke-image {
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0 20%;
+  height: 100%;
+  // border: 1px dotted chartreuse;
+
+  > img {
+    height: 100%;
+  }
 }

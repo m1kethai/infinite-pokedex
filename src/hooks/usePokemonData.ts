@@ -4,11 +4,10 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import * as _ from 'lodash-es' //tmp: import all
 
 
-// * PAGE FETCH PARAMS:
-const MAX_FETCH_SIZE = 5;
+// * FETCH PARAMS:
+const MAX_FETCH_SIZE = 20;
 
 const usePokemonData = () => {
-  const [totalPagesFetched, setTotalPagesFetched] = useState(0);
 
   const fetchPageData = async ( pageNo ) => {
     const
@@ -25,53 +24,54 @@ const usePokemonData = () => {
 
     const pageData = await response.json();
 
-    return pageData;
-
-    // return _.omit( data, [
-    //   'next',
-    //   'previous',
-    //   // discard prev/next fetch urls and only include the total pokemon "count" value during the initial page fetch
-    //   // !hasPreviousPage && 'count'
-    // ])
+    return _.omit( pageData, [
+      // 'next',
+      'count',
+      'previous'
+    ])
   };
 
   const fetchPokeDetails = async ( pokeResult ) => {
-    const pokeResp = await fetch( pokeResult.url );
-    if ( !pokeResp.ok ) {
+    const pokeDetailsResponse = await fetch( pokeResult.url );
+
+    if ( !pokeDetailsResponse.ok ) {
       debugger;
       throw new Error( "Failed to fetch Pokemon details" );
     }
-    const pokeData = await pokeResp.json();
-    const updatedPokeData = transformPokeData( pokeData );
 
-    console.log( `updatedPokeData`, JSON.stringify(updatedPokeData, undefined, 2) );
+    const pokeData = await pokeDetailsResponse.json();
+    const updatedPokeData = await transformPokeData( pokeData );
+
+    console.error(`🚀🚀 fetchPokeDetails - updatedPokeData:`, updatedPokeData);
 
     return updatedPokeData;
   };
 
-  const transformPokeData = ( data ) => {
-    const pokeInfo = _.pick( data, [
-      'id',
-      'name',
-      'types',
-      'sprites'
-    ]);
+  const transformPokeData = async ( originalPokeData ) => {
+    const pokeInfo = _.pick(
+      originalPokeData,
+      [ 'id', 'name', 'types', 'sprites' ]
+    );
 
-    const getFormattedTypes = ( types = null ) => {
-      if ( !types ) return "";
+    const formatPokemonTypes = ( pokeTypes ) => {
+      if ( !pokeTypes )
+        return "";
 
-      let formatted: string;
+      // ensure that the pokemon's primary type is always displayed first
+      const sortedTypes = pokeTypes.length === 1 ? pokeTypes : _.sortBy( pokeTypes, [ 'slot' ]);
+
       const typeList: string[] = [];
-      const sortedTypes = _.sortBy( types, [ 'slot' ]);
 
-      _.each( sortedTypes, pokeType => {
-        const typeStr = _.capitalize( pokeType.type.name );
-        typeList.push( typeStr );
+      _.each( sortedTypes, type => {
+        typeList.push(
+          // _.capitalize( type['type']['name'])
+          _.has( type, 'type.name' )
+            ? _.capitalize( type['type']['name'])
+            : ""
+        );
       })
 
-      formatted = typeList.join(", ");
-      console.error("🚀🚀🚀 ~ getFormattedTypes ~ formatted:", formatted);
-
+      const formatted = typeList.join(", ");
       return formatted;
     }
 
@@ -80,73 +80,31 @@ const usePokemonData = () => {
       id: pokeInfo.id,
       imageUrl: _.get( pokeInfo, 'sprites.other.dream_world.front_default' ),
       additionalInfo: {
-        types: getFormattedTypes( pokeInfo.types )
+        types: formatPokemonTypes( pokeInfo.types || null )
       }
     };
   }
 
-  const fetchPokemonData = async ( pageParam ) => {
+  const fetchPokemonData = async ({ pageParam = 0 }) => {
     const pageData = await fetchPageData( pageParam );
     const { results: pagePokes } = pageData;
 
-    console.error("🚀🚀🚀 ~ fetchPokemonData ~ pageData:", pageData);
+    // console.error("🚀🚀🚀 ~ fetchPokemonData ~ pageData:", pageData);
 
     const updatedPokeResults = await Promise.all( _.map( pagePokes, fetchPokeDetails ));
-
-    // const updatedPageData = _.assign( pageData, {
-    //   results: updatedPokeResults
-    // });
     const updatedPageData = {
       ...pageData,
       results: updatedPokeResults
     };
 
     return updatedPageData;
-
-    // return {
-    //   pokemonList,
-    //   pokemonDetails,
-    //   nextPage: nextPage + 1,
-    //   hasMore: response.next !== null,
-    // };
-    // const pokemonData = {};
-    // let totalPagesFetched = 0;
-
-    // pages.forEach((page) => {
-    //   if (page.status === "fulfilled") {
-    //     const { results } = page.value;
-    //     const pageData = {};
-    //     results.forEach(async (result) => {
-    //       const pokemonDetails = await fetchPagePokeDetails(result.url);
-    //       const {
-    //         name,
-    //         id,
-    //         types,
-    //         sprites: { other },
-    //         url,
-    //       } = pokemonDetails;
-    //       const imageUrl = other[ "official-artwork" ].front_default;
-
-    //       pageData[ id ] = {
-    //         name,
-    //         id,
-    //         type: types[ 0 ].type.name,
-    //         url,
-    //         imageUrl,
-    //       };
-    //     });
-
-    //     pokemonData[ `page-${totalPagesFetched}` ] = pageData;
-    //     totalPagesFetched++;
-    //   }
-    // });
-
-    // return { totalPagesFetched, pokemonData };
   };
 
   const {
-    data: pokemonData,
+    data,
     status,
+    isSuccess,
+    isError,
     error,
     isLoading,
     isFetching,
@@ -154,37 +112,43 @@ const usePokemonData = () => {
     hasNextPage,
     hasPreviousPage,
     fetchNextPage
-  } = useInfiniteQuery(
-    [ "pokemonData" ],
-    ({ pageParam = 0 }) => fetchPokemonData( pageParam ),
-    {
-      //* parse and combine page + page poke details responses
-      // select: data => {
-      // },
+  } = useInfiniteQuery({
+      queryKey: [ "pokemonData" ],
+      queryFn: fetchPokemonData,
+      // select: data => {},
+      getNextPageParam: ( lastPage, pages ) => {
+        // const next = !_.isNull( lastPage.next ) ? pages.length : undefined;
+        const next = _.get( lastPage, 'next', "" ).length ? pages.length : undefined;
+        // console.log( `getNextPageParam next => ${next}` );
 
-      // getNextPageParam: ( lastPage ) => {
-      //   console.error("🚀🚀🚀 ~ usePokemonData ~ lastPage:", lastPage);
-      //   const { next } = lastPage;
-      //   return next
-      //     ? lastPage.results.length / MAX_PAGE_SIZE
-      //     : undefined;
-      // },
-
-      keepPreviousData: true,
-      onSuccess: data => {
-        console.error("🚀🚀🚀 ~ usePokemonData ~ data:", data);
+        return next;
       },
+
+      keepPreviousData: false,
+      // onSuccess: data => {
+      //   console.info("🚀🚀🚀 ~ usePokemonData ~ onSuccess - data:", data);
+      // },
       onError: err => {
-        console.error("🚀🚀🚀 ~ usePokemonData ~ useInfiniteQuery - err:", err);
+        console.error("🚀🚀🚀 ~ usePokemonData ~ onError - err:", err);
       },
-    }
-  );
+    });
+
+  const pokemonData = data ? data.pages.flatMap( page => page.results ) : [];
+  const pokemonCount = pokemonData.length;
+
+  // const pokemonData = data?.pages.flatMap((page) => page.results) ?? [];
+
+// debugger;
 
   return {
+    pokemonData,
+    pokemonCount,
     isLoading,
     isFetching,
-    // totalPagesFetched: pokemonData.totalPagesFetched,
-    pokemonData,
+    isFetchingNextPage,
+    status,
+    error,
+    hasPreviousPage,
     hasNextPage,
     fetchNextPage
   };
