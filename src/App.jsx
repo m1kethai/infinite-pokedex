@@ -15,6 +15,7 @@ const queryClient = new QueryClient({
   }
 })
 
+// resets all Pokemon data
 function clear() {
   queryClient.clear();
 }
