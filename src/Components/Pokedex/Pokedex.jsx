@@ -1,4 +1,4 @@
-import {
+import { useEffect, useRef } from 'react'
   useState,
   useEffect,
   useCallback,
@@ -118,6 +118,11 @@ const Pokedex = ({
           </div>
         }
       </div>
+
+      <div className="catch-em-all">
+        <span>gotta catch 'em all!</span>
+      </div>
+
     </div>
   );
 };

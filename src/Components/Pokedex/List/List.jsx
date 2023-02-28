@@ -18,29 +18,13 @@ const List = ({
   hasNextPage
 }) => {
 
-  // const [ loadingRowIdx, setLoadingRowIdx ] = useState[""];
-
-  // useEffect(() => {
-    // let ignore = false;
-
-    // if (pokeCount >= 1 && !ignore )
-      // setLoadingRowIdx( pokeCount - 1 );
-
-    // console.log( `List ~ useEffect: loadingRowIdx => ${loadingRowIdx}` );
-
-    // return () => {
-    //   ignore = true;
-    // }
-
-  // }, [ pokeCount ]);
-
-  console.error( `🚀🚀 List ~ pokeData, pokeCount, listItems, listHeight, hasNextPage:`, {
-    pokeData,
-    pokeCount,
-    listItems,
-    listHeight,
-    hasNextPage
-  });
+  // console.error( `🚀🚀 List ~ pokeData, pokeCount, listItems, listHeight, hasNextPage:`, {
+  //   pokeData,
+  //   pokeCount,
+  //   listItems,
+  //   listHeight,
+  //   hasNextPage
+  // });
 
   return (
     <ul
