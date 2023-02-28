@@ -1,62 +1,128 @@
-import React, { useState, useCallback } from "react";
-import * as _ from "lodash-es";
+import { useEffect, useRef } from 'react'
+  useState,
+  useEffect,
+  useCallback,
+  useRef } from 'react'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
-import usePokemonData from "../../hooks/usePokemonData";
-import List from "./List/List";
+import * as _ from 'lodash-es' //tmp: import all
 
-import "./pokedex.scss";
+import usePokemonData from '../../hooks/usePokemonData'
+import List from './List/List'
+import './pokedex.scss';
 
+const Pokedex = ({
+  clearCache
+}) => {
 
-const MAX_VISIBLE_POKEMON = 90;
+  const {
+    status,
+    pokemonData,
+    pokemonCount,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    error
+  } = usePokemonData();
 
-const Pokedex = () => {
-  const [pokemonData, setPokemonData] = useState({});
-  const [totalPagesFetched, setTotalPagesFetched] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const parentRef = useRef()
 
-  const { fetchPokemonData } = usePokemonData();
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? pokemonCount + 1 : pokemonCount,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 90,
+    overscan: 3,
+    // paddingStart: 4,
+    // paddingEnd: 4,
+    // debug: true,
+  })
 
-  const handleLoadMore = useCallback(() => {
-    if (Object.keys(pokemonData).length < MAX_VISIBLE_POKEMON) {
-      return;
+  useEffect(() => {
+    // console.info(`
+    //   useEffect
+    // `);
+    // console.error("🚀🚀🚀 ~ Pokedex ~ useEffect - pokemonData:", pokemonData);
+
+    const [ lastItem ] = [ ...rowVirtualizer.getVirtualItems()].reverse()
+
+    if (!lastItem) return
+
+    if (
+      pokemonData &&
+      lastItem.index >= pokemonCount - 1 &&
+      hasNextPage &&
+      !isLoading
+      // && isFetching
+    ) {
+      console.info(`fetchNextPage`);
+      // debugger;
+      fetchNextPage();
     }
-    const lastPageIndex = Object.keys(pokemonData).length;
-    const lastPage = pokemonData[`page-${lastPageIndex}`];
-    fetchPokemonData(lastPage.next);
-  }, [fetchPokemonData, pokemonData]);
+  }, [
+    hasNextPage,
+    // fetchNextPage,
+    pokemonCount,
+    // isFetching,
+    // isLoading,
+    rowVirtualizer.getVirtualItems(),
+  ]);
 
-  const fetchNextGroup = useCallback(() => {
-    const nextPageIndex = Object.keys(pokemonData).length + 1;
-    const nextGroup = pokemonData[`page-${nextPageIndex}`];
-    if (!nextGroup) {
-      return;
-    }
-    const nextGroupPokemon = Object.values(nextGroup.pokemon);
-    setPokemonData((prevData) => {
-      const newData = { ...prevData };
-      delete newData[`page-${nextPageIndex - 1}`];
-      return newData;
-    });
-    setIsLoading(false);
-    setTotalPagesFetched(totalPagesFetched + 1);
-  }, [pokemonData, setPokemonData, setIsLoading, setTotalPagesFetched]);
+  // const renderList = () => {
+  // }
 
-  const isLoadingMore = isLoading && Object.keys(pokemonData).length > 0;
-
-  const memoizedPokemonData = React.useMemo(() => pokemonData, [pokemonData]);
-
-  React.useEffect(() => {
-    fetchPokemonData("https://pokeapi.co/api/v2/pokemon?limit=0&offset=0");
-  }, [fetchPokemonData]);
+  function resetData() {
+    clearCache();
+  }
 
   return (
-    <div>
-      <List
-        pokemonData={memoizedPokemonData}
-        isLoading={isLoadingMore}
-        onLoadMore={handleLoadMore}
-        fetchNextGroup={fetchNextGroup}
-      />
+    <div className="pd__body">
+
+      <div className="buttons">
+        <a
+          className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
+          onClick={ fetchNextPage }>
+          { pokemonData && !isLoading && hasNextPage ? "LOAD NEXT" : "NO MORE 2 LOAD" }
+        </a>
+        <a
+          className="button is-danger"
+          onClick={ resetData }>
+          RESET POKEMONS
+        </a>
+      </div>
+
+      <div
+        ref={ parentRef }
+        className="pd__screen"
+      >
+        {
+          isLoading
+            ? (<p>Loading...</p>)
+            : error
+              ? (<span>Error: {error}</span>)
+              : pokemonData && pokemonCount && (
+                <List
+                  pokeData={ pokemonData }
+                  pokeCount={ pokemonCount }
+                  listItems={ rowVirtualizer.getVirtualItems() }
+                  listHeight={`${rowVirtualizer.getTotalSize()}px`}
+                  hasNextPage={ hasNextPage }
+                ></List>
+              )
+              || null
+        }
+
+        {
+          <div>
+            {isFetching ? 'Background Updating...' : null}
+          </div>
+        }
+      </div>
+
+      <div className="catch-em-all">
+        <span>gotta catch 'em all!</span>
+      </div>
+
     </div>
   );
 };

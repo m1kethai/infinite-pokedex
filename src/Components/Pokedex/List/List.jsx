@@ -1,27 +1,96 @@
-import React from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef } from 'react'
+
 import PropTypes from 'prop-types';
 import ListItem from './ListItem/ListItem';
 
-const List = ({ pokemonData, isLoading }) => {
+import './list.scss';
+
+
+const List = ({
+  pokeData,
+  pokeCount,
+  listItems,
+  listHeight,
+  hasNextPage
+}) => {
+
+  // console.error( `🚀🚀 List ~ pokeData, pokeCount, listItems, listHeight, hasNextPage:`, {
+  //   pokeData,
+  //   pokeCount,
+  //   listItems,
+  //   listHeight,
+  //   hasNextPage
+  // });
+
   return (
-    <div className="list-container">
-      {Object.keys(pokemonData).map((key) => {
-        const pageData = pokemonData[key];
-        return pageData.map((pokemon) => (
-          <ListItem key={pokemon.id} pokemon={pokemon} />
-        ));
+    <ul
+      className="pokemon-list"
+      style={{
+        height: listHeight,
+        width: '100%',
+        position: 'relative',
+      }}
+    >
+      {
+        listItems.map( item => {
+          const isLoaderRow = item.index > pokeCount - 1
+          const pokemonRow = pokeData[ item.index ]
+
+          return (
+            <li
+              key={ item.index }
+              className="pokemon-list__row"
+              style={{
+                height: `${item.size}px`,
+                transform: `translateY(${item.start}px)`,
+              }}
+            >
+              {isLoaderRow
+                ? hasNextPage
+                  ? 'Loading more...'
+                  : 'End of the list, buddy!'
+                : (
+
+                  <div
+                    className='poke-row'
+                  >
+
+                    <div className='poke-info'>
+                      <span className='name'>
+                        { pokemonRow.name }
+                      </span>
+                      <span className='id'>
+                        #{ pokemonRow.id }
+                      </span>
+                      <span className='types'>
+                        { pokemonRow.additionalInfo.types }
+                      </span>
+                    </div>
+
+                    <div className='poke-image'>
+                      <img
+                        src={ pokemonRow.imageUrl }
+                        alt={ `${pokemonRow.name} image` }
+                      />
+                    </div>
+
+                  </div>
+                )
+              }
+            </li>
+          )
       })}
-      {isLoading &&
-        Array.from({ length: 30 }, (_, i) => (
-          <ListItem key={`skeleton-${i}`} skeleton />
-        ))}
-    </div>
+    </ul>
   );
 };
 
-List.propTypes = {
-  pokemonData: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};
+// List.propTypes = {
+//   pokeData: PropTypes.array.isRequired,
+//   rowVirtualizer: PropTypes.object.isRequired,
+// };
 
 export default List;
