@@ -19,10 +19,9 @@ $pokedex-color: #9c2424;
 .pd-body {
   &--top {
     flex: 0 1 auto;
-    // box-shadow: inset 10px 7px 17px 2px black;
+    position: relative;
 
     div.svg-wrapper {
-      // padding-bottom: 2em;
       box-shadow: inset -5px 0px 11px 0px #3d2424;
 
       > svg {
@@ -31,10 +30,53 @@ $pokedex-color: #9c2424;
         path {
           stroke: rgb(37 33 33);
           stroke-width: 3px;
-          // filter: drop-shadow(-3px 5px 3px black);
           filter: drop-shadow(1px 3px 2px #333333);
           fill: none;
           transform: scaleX(1.5);
+        }
+      }
+    }
+
+    // @mixin small-light( $num ) {
+    // }
+
+    div.lights {
+      position: absolute;
+      display: flex;
+      width: 250px;
+      height: 75px;
+      top: 25px;
+      left: 35px;
+
+      &--big {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background-color: #4085a8;
+        box-shadow: inset 0px 0px 15px 2px rgb(20 189 227 / 70%);
+        border: 3px solid white;
+      }
+
+      &--small {
+        display: flex;
+        grid-gap: 1em;
+        max-width: 130px;
+        margin: 0.3em 0 0 3em;
+
+        .light {
+          width: 28px;
+          height: 28px;
+          margin-right: 0.5em;
+          border-radius: 50%;
+          box-shadow: 0 0 4px 1px rgb( 38 123 228 / 40% );
+
+          &:nth-child( 1 ) {
+            background-color: red;
+          } &:nth-child( 2 ) {
+            background-color: yellow;
+          } &:nth-child( 3 ) {
+          background-color: green;
+          }
         }
       }
     }
@@ -74,7 +116,6 @@ $pokedex-color: #9c2424;
         &::-webkit-scrollbar-thumb {
           background-color: #c09900;
           border-radius: 50px;
-          // outline: none;
         }
       }
     }
