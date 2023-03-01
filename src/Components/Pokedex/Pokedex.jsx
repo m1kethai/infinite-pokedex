@@ -6,7 +6,9 @@ import usePokemonData from '../../hooks/usePokemonData'
 import List from './List/List'
 import './pokedex.scss';
 
-// gsap.registerPlugin(ScrollTrigger);
+const MAX_VISIBLE_ROWS = 5;
+const POKEMON_ROW_HEIGHT = 80;
+
 
 const Pokedex = ({
   clearCache
@@ -28,11 +30,8 @@ const Pokedex = ({
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? pokemonCount + 1 : pokemonCount,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 90,
-    overscan: 3,
-    // paddingStart: 4,
-    // paddingEnd: 4,
-    // debug: true,
+    estimateSize: () => POKEMON_ROW_HEIGHT,
+    overscan: 5
   })
 
   useEffect(() => {
@@ -69,19 +68,20 @@ const Pokedex = ({
     // console.log( `renderListContainer => ${renderListContainer}` );
 
     return (
-        <div
-          ref={ parentRef }
-          className="pd-list-container"
-        >
+      <div
+        ref={ parentRef }
+        className="pd-list-container"
+        style={{
+          height: `${POKEMON_ROW_HEIGHT * MAX_VISIBLE_ROWS}px`
+        }}
+      >
         <List
           pokeData={ pokemonData }
           pokeCount={ pokemonCount }
           listItems={ rowVirtualizer.getVirtualItems() }
           listHeight={`${rowVirtualizer.getTotalSize()}px`}
-          hasNextPage={ !!hasNextPage }
-        />
-
-        </div>
+          hasNextPage={ !!hasNextPage }/>
+      </div>
     )
   }
 
