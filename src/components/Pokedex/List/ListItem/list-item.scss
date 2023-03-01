@@ -1,34 +1,124 @@
-li.list-item {
+.list__row {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  flex-direction: row-reverse;
-  border: 1px dashed #978787;
-  height: 5rem;
-  padding: 0.5rem;
+  flex-direction: column;
+  padding: 0.5em 1em;
 
-  div {
-    &.pokemon-info {
+  background-color: #3a3a3a;
+  border: 1px solid rgba(151, 151, 151, 0.25);
+  border-left: none;
+  border-right: none;
+  box-shadow: inset 0 0 40px 5px #a29d9b14;
+
+  &, * { transition: 0.5s all }
+
+  &__contents {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0.2em;
+
+    .poke-info {
       display: flex;
-      justify-content: center;
       flex-direction: column;
-      flex: 1 80%;
+      justify-content: space-between;
+      flex: 1 50%;
 
+      font-family: var( --rubik );
       text-align: left;
+      color: floralwhite;
 
-      h2.name {
-        font-size: 1.75rem;
-        font-weight: bold;
-        color: white;
-      }
+      span {
+        &.name {
+          // font-family: var(--inter);
+          font-family: var( --rubik );
+          font-size: 1.75em;
+          font-weight: 500;
+        }
 
-      h3.id {
-        font-size: 1.25rem;
-        color: #494343;
+        &.id,
+        &.types {
+          font-style: italic;
+        }
+
+        &.id {
+          font-size: 1.3em;
+          font-family: var( --rubik );
+          + span {
+            // separator symbol between the pokemon number & type(s)
+            margin: 0 0.45em;
+            font-size: 1.3em;
+          }
+        }
+
+        &.types {
+          font-size: 1.4em;
+          font-family: var( --raleway );
+          font-style: italic;
+          font-weight: 300;
+        }
       }
     }
 
-    &.image-container {
-      flex: 0 0 20%;
-      border: 1px dotted chartreuse;
+    .poke-image {
+      display: flex;
+      justify-content: flex-end;
+      flex: 0 1 20%;
+      height: 100%;
+
+      > img:hover {
+        animation: rock 500ms;
+      }
     }
+  }
+
+  .loading-row {
+    display: flex;
+    justify-content: center;
+
+    img.spinner {
+      height: 65px;
+      width: fit-content;
+      animation: spin 750ms infinite cubic-bezier( 0.4, 0, 0.3, 0.85 );
+    }
+  }
+
+  &:hover {
+    background-color: #464646;
+    .poke-image {
+      margin-right: 0.5em;
+      animation: 500ms scale-up;
+    }
+  }
+}
+
+@keyframes rock {
+  0%, 100% {
+    transform: rotate( -5deg );
+  } 20% {
+    transform:scale( 1.05 )
+  } 50% {
+    transform: rotate( 5deg )
+  } 100% {
+    transform:scale( 1 )
+  }
+}
+
+@keyframes scale-up {
+  0%, 100% {
+    transform:scale( 1 )
+  } 50% {
+    transform:scale( 1.05 )
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform:rotate( 0deg );
+  } 100% {
+    transform:rotate( 360deg );
   }
 }
