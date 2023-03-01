@@ -9,14 +9,14 @@ import './base-styles.scss'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // 5 sec. fetch buffer for dedupe
+      // 5 sec. fetch buffer
       staleTime: 5000,
       refetchOnWindowFocus: false
     }
   }
 })
 
-// resets all Pokemon data
+// Clear all Pokemon data from react-query cache
 function clear() {
   queryClient.clear();
 }
@@ -24,9 +24,6 @@ function clear() {
 function App() {
   return (
     <QueryClientProvider client={ queryClient }>
-      <div className="logo">
-        welcome to pokedex infinity
-      </div>
       <Pokedex clearCache={ clear } />
       <ReactQueryDevtools initialIsOpen/>
     </QueryClientProvider>
