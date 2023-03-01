@@ -1,12 +1,11 @@
-// ul
-.pokemon-list {
+.list { //* ul
+  position: relative;
   width: 100%;
   flex-direction: column;
   align-self: center;
   overflow: hidden;
 
-  // li
-  &__row {
+  &__row { //* li
     position: absolute;
     top: 0;
     left: 0;
@@ -79,18 +78,17 @@
         justify-content: flex-end;
         flex: 0 1 20%;
         height: 100%;
-
-        > img {
-        }
       }
+    }
+
+    .loading-row .spinner {
+      background: url( ../../../assets/pokeball.svg );
     }
 
     &:hover {
       background-color: #464646;
-
       .poke-image {
         margin-right: 10px;
-
         > img {
           transform: scale( 1.05 );
         }

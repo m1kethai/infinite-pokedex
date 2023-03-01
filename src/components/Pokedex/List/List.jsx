@@ -12,12 +12,8 @@ const List = ({
 
   return (
     <ul
-      className="pokemon-list"
-      style={{
-        height: listHeight,
-        width: '100%',
-        position: 'relative',
-      }}
+      className="list"
+      style={{ height: listHeight }}
     >
       {
         listItems.map( item => {
@@ -27,7 +23,7 @@ const List = ({
           return (
             <li
               key={ item.index }
-              className="pokemon-list__row"
+              className="list__row"
               style={{
                 height: `${item.size}px`,
                 transform: `translateY(${item.start}px)`,
@@ -38,7 +34,7 @@ const List = ({
                   ? 'Loading more Pokemon...'
                   : 'You caught them all!' : (
 
-                    <div className='pokemon-list__row__contents'>
+                    <div className='list__row__contents'>
                       <div className='poke-info'>
                         <div className='poke-info__top'>
                           <span className='name'>
