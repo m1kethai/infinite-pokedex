@@ -1,6 +1,7 @@
-@import 'bulma/bulma'; // TODO: TMP
+@import 'bulma/bulma';
 
-$pokedex-color: #9c2424;
+
+$pokedex-body-color: rgb(182, 58, 58);
 
 .pokedex {
   display: flex;
@@ -11,7 +12,7 @@ $pokedex-color: #9c2424;
   margin: 10vh auto 0;
   overflow: hidden;
 
-  background-color: $pokedex-color;
+  background-color: $pokedex-body-color;
   box-shadow: inset 0px 2px 15px 3px black;
   border-radius: 30px;
 }
@@ -19,22 +20,61 @@ $pokedex-color: #9c2424;
 .pd-body {
   &--top {
     flex: 0 1 auto;
-    // box-shadow: inset 10px 7px 17px 2px black;
+    position: relative;
 
     div.svg-wrapper {
-      // padding-bottom: 2em;
       box-shadow: inset -5px 0px 11px 0px #3d2424;
 
       > svg {
         width: 100%;
 
         path {
+          transform: scaleX(1.5);
+          fill: none;
           stroke: rgb(37 33 33);
           stroke-width: 3px;
-          // filter: drop-shadow(-3px 5px 3px black);
-          filter: drop-shadow(1px 3px 2px #333333);
-          fill: none;
-          transform: scaleX(1.5);
+          filter: drop-shadow( 0px 4px 3px #333 );
+        }
+      }
+    }
+
+    div.lights {
+      position: absolute;
+      display: flex;
+      width: 250px;
+      height: 75px;
+      top: 25px;
+      left: 35px;
+
+      &--big {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        background-color: #4085a8;
+        box-shadow: inset 0px 0px 15px 2px rgb(20 189 227 / 70%);
+        border: 3px solid white;
+      }
+
+      &--small {
+        display: flex;
+        grid-gap: 1em;
+        max-width: 130px;
+        margin: 0.3em 0 0 3em;
+
+        .light {
+          width: 28px;
+          height: 28px;
+          margin-right: 0.5em;
+          border-radius: 50%;
+          box-shadow: 0 0 4px 1px rgb( 38 123 228 / 40% );
+
+          &:nth-child( 1 ) {
+            background-color: red;
+          } &:nth-child( 2 ) {
+            background-color: yellow;
+          } &:nth-child( 3 ) {
+          background-color: green;
+          }
         }
       }
     }
@@ -74,7 +114,6 @@ $pokedex-color: #9c2424;
         &::-webkit-scrollbar-thumb {
           background-color: #c09900;
           border-radius: 50px;
-          // outline: none;
         }
       }
     }
@@ -85,18 +124,13 @@ $pokedex-color: #9c2424;
     flex: 1;
     flex-direction: column;
     justify-content: flex-end;
-
     padding: 2em;
 
     div.catchem {
-      color: rgba(255, 250, 240, 0.5);
-      font-family: "Press Start 2P", cursive;
-      font-size: 1.25em;
-      text-decoration: underline;
-      // text-decoration-color: mediumspringgreen;
-      text-decoration-thickness: 2px;
-      transform: skew(174deg, 0deg);
       align-self: flex-end;
+      font-family: var( --pstp );
+      font-size: 0.5em;
+      color: darken( $pokedex-body-color, 15% );
     }
   }
 }

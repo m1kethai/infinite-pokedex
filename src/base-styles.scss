@@ -1,29 +1,33 @@
 :root {
-  //* CSS Vars:
+  //* base styles:
+  --base-font-size: 10px;
+  --base-font-color: floralwhite;
+  --body-bg-color: #323232;
+
+  //* custom fonts:
   --inter: 'Inter', sans-serif;
   --raleway: 'Raleway', sans-serif;
   --rubik: 'Rubik', sans-serif;
   --pstp: 'Press Start 2P', cursive, sans-serif;
 
-  font-size: 10px;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
+  background-color: var( --body-bg-color );
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #323232;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+
+  -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+
+  font-size: var( --base-font-size );
+  font-family: --inter, system-ui;
+  line-height: 1.5;
+  color: var( --base-font-color );
 }
