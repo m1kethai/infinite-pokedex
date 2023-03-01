@@ -90,18 +90,13 @@ const Pokedex = ({
   }
 
   return (
-    <div className="pd__body">
-
-      <div className="pd__body--top">
+    <div className="pokedex">
+      <div className="pd-body--top">
         <div className='svg-wrapper'>
-          <svg>
-            <path d="M 0 140 L 320 140 L 440 100 L 700 100 L 700 0 L 0 0 L 0 140"></path>
-          </svg>
+          <svg><path d="m 0 124 q 0 6 6 6 h 4 h 230 c 33 0 39 -64 73 -64 h 150 q 7 0 7 -6"/></svg>
         </div>
       </div>
-
-      <div className="pd__body--center">
-
+      <div className="pd-body--center">
         <div className="buttons">
           <a
             className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
@@ -114,7 +109,6 @@ const Pokedex = ({
             RESET POKEMONS
           </a>
         </div>
-
         <div className='pd-screen'>
           {
             isLoading
@@ -125,21 +119,11 @@ const Pokedex = ({
           }
         </div>
       </div>
-
-      <div className="pd__body--bottom">
-        {
-          isFetching ? (
-            <div>
-              <h1>TEMP - Updating...</h1>
-            </div>
-            ) : null
-        }
-
-        <div className="catch-em-all">
+      <div className="pd-body--bottom">
+        <div className="catchem">
           gotta catch 'em all!
         </div>
       </div>
-
     </div>
   );
 };
