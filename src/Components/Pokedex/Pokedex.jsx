@@ -1,15 +1,12 @@
 import { useEffect, useRef } from 'react'
-  useState,
-  useEffect,
-  useCallback,
-  useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-
 import * as _ from 'lodash-es' //tmp: import all
 
 import usePokemonData from '../../hooks/usePokemonData'
 import List from './List/List'
 import './pokedex.scss';
+
+// gsap.registerPlugin(ScrollTrigger);
 
 const Pokedex = ({
   clearCache
@@ -68,8 +65,25 @@ const Pokedex = ({
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  // const renderList = () => {
-  // }
+  const renderListContainer = () => {
+    // console.log( `renderListContainer => ${renderListContainer}` );
+
+    return (
+        <div
+          ref={ parentRef }
+          className="pd-list-container"
+        >
+        <List
+          pokeData={ pokemonData }
+          pokeCount={ pokemonCount }
+          listItems={ rowVirtualizer.getVirtualItems() }
+          listHeight={`${rowVirtualizer.getTotalSize()}px`}
+          hasNextPage={ !!hasNextPage }
+        />
+
+        </div>
+    )
+  }
 
   function resetData() {
     clearCache();
@@ -78,49 +92,52 @@ const Pokedex = ({
   return (
     <div className="pd__body">
 
-      <div className="buttons">
-        <a
-          className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
-          onClick={ fetchNextPage }>
-          { pokemonData && !isLoading && hasNextPage ? "LOAD NEXT" : "NO MORE 2 LOAD" }
-        </a>
-        <a
-          className="button is-danger"
-          onClick={ resetData }>
-          RESET POKEMONS
-        </a>
+      <div className="pd__body--top">
+        <div className='svg-wrapper'>
+          <svg>
+            <path d="M 0 140 L 320 140 L 440 100 L 700 100 L 700 0 L 0 0 L 0 140"></path>
+          </svg>
+        </div>
       </div>
 
-      <div
-        ref={ parentRef }
-        className="pd__screen"
-      >
-        {
-          isLoading
-            ? (<p>Loading...</p>)
-            : error
-              ? (<span>Error: {error}</span>)
-              : pokemonData && pokemonCount && (
-                <List
-                  pokeData={ pokemonData }
-                  pokeCount={ pokemonCount }
-                  listItems={ rowVirtualizer.getVirtualItems() }
-                  listHeight={`${rowVirtualizer.getTotalSize()}px`}
-                  hasNextPage={ hasNextPage }
-                ></List>
-              )
-              || null
-        }
+      <div className="pd__body--center">
 
-        {
-          <div>
-            {isFetching ? 'Background Updating...' : null}
-          </div>
-        }
+        <div className="buttons">
+          <a
+            className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
+            onClick={ fetchNextPage }>
+            { pokemonData && !isLoading && hasNextPage ? "LOAD NEXT" : "NO MORE 2 LOAD" }
+          </a>
+          <a
+            className="button is-danger"
+            onClick={ resetData }>
+            RESET POKEMONS
+          </a>
+        </div>
+
+        <div className='pd-screen'>
+          {
+            isLoading
+              ? (<p>Loading...</p>)
+              : error
+                ? (<span>Error: {error}</span>)
+                : pokemonData && pokemonCount && renderListContainer()
+          }
+        </div>
       </div>
 
-      <div className="catch-em-all">
-        <span>gotta catch 'em all!</span>
+      <div className="pd__body--bottom">
+        {
+          isFetching ? (
+            <div>
+              <h1>TEMP - Updating...</h1>
+            </div>
+            ) : null
+        }
+
+        <div className="catch-em-all">
+          gotta catch 'em all!
+        </div>
       </div>
 
     </div>

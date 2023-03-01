@@ -42,7 +42,7 @@ const usePokemonData = () => {
     const pokeData = await pokeDetailsResponse.json();
     const updatedPokeData = await transformPokeData( pokeData );
 
-    console.error(`🚀🚀 fetchPokeDetails - updatedPokeData:`, updatedPokeData);
+    // console.error(`🚀🚀 fetchPokeDetails - updatedPokeData:`, updatedPokeData);
 
     return updatedPokeData;
   };

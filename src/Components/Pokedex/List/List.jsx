@@ -4,6 +4,8 @@ import {
   useCallback,
   useRef } from 'react'
 
+// import { gsap } from "gsap"
+
 import PropTypes from 'prop-types';
 import ListItem from './ListItem/ListItem';
 
@@ -17,14 +19,6 @@ const List = ({
   listHeight,
   hasNextPage
 }) => {
-
-  // console.error( `🚀🚀 List ~ pokeData, pokeCount, listItems, listHeight, hasNextPage:`, {
-  //   pokeData,
-  //   pokeCount,
-  //   listItems,
-  //   listHeight,
-  //   hasNextPage
-  // });
 
   return (
     <ul
@@ -88,9 +82,12 @@ const List = ({
   );
 };
 
-// List.propTypes = {
-//   pokeData: PropTypes.array.isRequired,
-//   rowVirtualizer: PropTypes.object.isRequired,
-// };
+List.propTypes = {
+  pokeData: PropTypes.array.isRequired,
+  pokeCount: PropTypes.number.isRequired,
+  listItems: PropTypes.array.isRequired,
+  listHeight: PropTypes.string.isRequired,
+  hasNextPage: PropTypes.bool.isRequired
+};
 
 export default List;
