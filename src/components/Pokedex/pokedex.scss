@@ -24,10 +24,8 @@ $pokedex-body-color: rgb(182, 58, 58);
 
     div.svg-wrapper {
       box-shadow: inset -5px 0px 11px 0px #3d2424;
-
       > svg {
         width: 100%;
-
         path {
           transform: scaleX(1.5);
           fill: none;
@@ -66,14 +64,17 @@ $pokedex-body-color: rgb(182, 58, 58);
           height: 28px;
           margin-right: 0.5em;
           border-radius: 50%;
-          box-shadow: 0 0 4px 1px rgb( 38 123 228 / 40% );
+          border: 1px solid rgba(255, 255, 255, 0.5);
+
+          background-color: var( --light-color );
+          box-shadow: 0 0 2px 1px var( --light-color );
 
           &:nth-child( 1 ) {
-            background-color: red;
+            --light-color: red;
           } &:nth-child( 2 ) {
-            background-color: yellow;
+            --light-color: yellow;
           } &:nth-child( 3 ) {
-          background-color: green;
+            --light-color: green;
           }
         }
       }
@@ -84,13 +85,6 @@ $pokedex-body-color: rgb(182, 58, 58);
     flex: 0 1 auto;
     padding: 3.5em 8em;
     box-shadow: -5px 0px 2px 3px rgb(60 31 31 / 61%);
-
-    //! TEMP - testing
-    div.buttons {
-      display: none;
-      align-self: center;
-      margin: 1.5em 0 1em;
-    }
 
     .pd-screen {
       border-radius: 5px;
