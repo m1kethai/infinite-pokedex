@@ -1,0 +1,99 @@
+.list { //* ul
+  position: relative;
+  width: 100%;
+  flex-direction: column;
+  align-self: center;
+  overflow: hidden;
+
+  &__row { //* li
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 1em;
+
+    background-color: #3a3a3a;
+    border: 1px solid rgba(151, 151, 151, 0.25);
+    border-left: none;
+    border-right: none;
+    box-shadow: inset 0 0 40px 5px #a29d9b14;
+
+    &, * {
+      transition: 0.5s all;
+    }
+
+    &__contents {
+      display: flex;
+      justify-content: space-between;
+      height: 100%;
+      padding: 0.2em;
+
+      .poke-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1 50%;
+
+        font-family: var( --rubik );
+        text-align: left;
+        color: floralwhite;
+
+        span {
+          &.name {
+            // font-family: var(--inter);
+            font-family: var( --rubik );
+            font-size: 1.75em;
+            font-weight: 500;
+          }
+
+          &.id,
+          &.types {
+            // font-family: var( --raleway );
+            font-style: italic;
+          }
+
+          &.id {
+            font-size: 1.3em;
+            // font-family: var( --raleway );
+
+            // separator symbol between the pokemon number & type(s)
+            + span {
+              margin: 0 0.45em;
+              font-size: 1.3em;
+            }
+          }
+
+          &.types {
+            font-size: 1.3em;
+            font-style: italic;
+            font-weight: 400;
+          }
+        }
+      }
+
+      .poke-image {
+        display: flex;
+        justify-content: flex-end;
+        flex: 0 1 20%;
+        height: 100%;
+      }
+    }
+
+    .loading-row .spinner {
+      background: url( ../../../assets/pokeball.svg );
+    }
+
+    &:hover {
+      background-color: #464646;
+      .poke-image {
+        margin-right: 10px;
+        > img {
+          transform: scale( 1.05 );
+        }
+      }
+    }
+  }
+}
+

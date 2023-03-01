@@ -9,9 +9,7 @@ import './base-styles.scss'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // 5 sec. fetch buffer
-      staleTime: 5000,
-      refetchOnWindowFocus: false
+      staleTime: 10000
     }
   }
 })

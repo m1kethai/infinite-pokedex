@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import * as _ from 'lodash-es' //tmp: import all
 
 import usePokemonData from '../../hooks/usePokemonData'
 import List from './List/List'
@@ -10,71 +9,48 @@ const MAX_VISIBLE_ROWS = 5;
 const POKEMON_ROW_HEIGHT = 80;
 
 
-const Pokedex = ({
-  clearCache
-}) => {
-
+const Pokedex = ({ clearCache }) => {
   const {
-    status,
     pokemonData,
     pokemonCount,
     isLoading,
-    isFetching,
     hasNextPage,
     fetchNextPage,
     error
   } = usePokemonData();
 
   const parentRef = useRef()
-
   const rowVirtualizer = useVirtualizer({
-    count: hasNextPage ? pokemonCount + 1 : pokemonCount,
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
-    overscan: 5
+    count: hasNextPage ? pokemonCount + 1 : pokemonCount,
+    overscan: 3
   })
 
   useEffect(() => {
-    // console.info(`
-    //   useEffect
-    // `);
-    // console.error("🚀🚀🚀 ~ Pokedex ~ useEffect - pokemonData:", pokemonData);
-
-    const [ lastItem ] = [ ...rowVirtualizer.getVirtualItems()].reverse()
-
+    const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse()
     if (!lastItem) return
 
     if (
-      pokemonData &&
-      lastItem.index >= pokemonCount - 1 &&
-      hasNextPage &&
-      !isLoading
-      // && isFetching
-    ) {
-      console.info(`fetchNextPage`);
-      // debugger;
-      fetchNextPage();
-    }
+      pokemonData
+      && lastItem.index >= pokemonCount - 1
+      && hasNextPage
+      && !isLoading
+    ) fetchNextPage();
   }, [
     hasNextPage,
-    // fetchNextPage,
     pokemonCount,
-    // isFetching,
-    // isLoading,
     rowVirtualizer.getVirtualItems(),
   ]);
 
   const renderListContainer = () => {
-    // console.log( `renderListContainer => ${renderListContainer}` );
-
     return (
       <div
         ref={ parentRef }
         className="pd-list-container"
         style={{
           height: `${POKEMON_ROW_HEIGHT * MAX_VISIBLE_ROWS}px`
-        }}
-      >
+        }}>
         <List
           pokeData={ pokemonData }
           pokeCount={ pokemonCount }
@@ -91,34 +67,23 @@ const Pokedex = ({
 
   return (
     <div className="pokedex">
+
       <div className="pd-body--top">
         <div className='svg-wrapper'>
           <svg><path d="m 0 124 q 0 6 6 6 h 4 h 230 c 33 0 39 -64 73 -64 h 150 q 7 0 7 -6"/></svg>
         </div>
       </div>
+
       <div className="pd-body--center">
-        <div className="buttons">
-          <a
-            className={ 'button is-light ' + ( isLoading ? ' is-loading' : 'is-warning' )}
-            onClick={ fetchNextPage }>
-            { pokemonData && !isLoading && hasNextPage ? "LOAD NEXT" : "NO MORE 2 LOAD" }
-          </a>
-          <a
-            className="button is-danger"
-            onClick={ resetData }>
-            RESET POKEMONS
-          </a>
-        </div>
-        <div className='pd-screen'>
-          {
+        <div className='pd-screen'> {
             isLoading
               ? (<p>Loading...</p>)
               : error
                 ? (<span>Error: {error}</span>)
                 : pokemonData && pokemonCount && renderListContainer()
-          }
-        </div>
+        } </div>
       </div>
+
       <div className="pd-body--bottom">
         <div className="catchem">
           gotta catch 'em all!
