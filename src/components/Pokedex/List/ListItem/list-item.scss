@@ -33,10 +33,9 @@
 
       span {
         &.name {
-          // font-family: var(--inter);
           font-family: var( --rubik );
-          font-size: 1.75em;
-          font-weight: 500;
+          font-size: 2em;
+          font-weight: 400;
         }
 
         &.id,
@@ -48,7 +47,7 @@
           font-size: 1.3em;
           font-family: var( --rubik );
           + span {
-            // separator symbol between the pokemon number & type(s)
+            // separator char. between pokemon number + type(s)
             margin: 0 0.45em;
             font-size: 1.3em;
           }

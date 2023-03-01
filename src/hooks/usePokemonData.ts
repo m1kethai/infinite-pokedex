@@ -1,15 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react'
 import { useInfiniteQuery } from "@tanstack/react-query"
-// import { pick } from 'lodash-es'
-import * as _ from 'lodash-es' //tmp: import all
+import {
+  get,
+  pick,
+  map,
+  each,
+  has,
+  omit,
+  sortBy,
+  capitalize
+} from 'lodash-es'
 
 
-// * FETCH PARAMS:
 const FETCH_LIMIT = 30;
 const BASE_FETCH_URL = "https://pokeapi.co/api/v2/pokemon";
 
 const usePokemonData = () => {
-  const fetchPageData = async ( pageNo ) => {
+  const fetchPageData = async ( pageNo: number ) => {
     const
       offset = pageNo * FETCH_LIMIT,
       limit = FETCH_LIMIT,
@@ -22,7 +28,7 @@ const usePokemonData = () => {
     }
     const pageData = await response.json();
 
-    return _.omit( pageData, [ 'count', 'previous' ])
+    return omit( pageData, [ 'count', 'previous' ])
   };
 
   const fetchPokeDetails = async ( pokeResult ) => {
@@ -38,7 +44,7 @@ const usePokemonData = () => {
   };
 
   const transformPokeData = async ( fetchedPokeData ) => {
-    const pokeInfo = _.pick(
+    const pokeInfo = pick(
       fetchedPokeData,
       ['id', 'name', 'types', 'sprites']
     );
@@ -47,13 +53,13 @@ const usePokemonData = () => {
       if ( !pokeTypes ) return "";
 
       // ensure the pokemon's primary type is always displayed first
-      const sortedTypes = pokeTypes.length === 1 ? pokeTypes : _.sortBy( pokeTypes, [ 'slot' ]);
+      const sortedTypes = pokeTypes.length === 1 ? pokeTypes : sortBy( pokeTypes, [ 'slot' ]);
       const typeList: string[] = [];
 
-      _.each( sortedTypes, type => {
+      each( sortedTypes, type => {
         typeList.push(
-          _.has( type, 'type.name' )
-            ? _.capitalize( type['type']['name'])
+          has( type, 'type.name' )
+            ? capitalize( type['type']['name'])
             : ""
         );
       })
@@ -62,9 +68,9 @@ const usePokemonData = () => {
     }
 
     return {
-      name: _.capitalize( pokeInfo.name ),
+      name: capitalize( pokeInfo.name ),
       id: pokeInfo.id,
-      imageUrl: _.get( pokeInfo, 'sprites.other.dream_world.front_default' ),
+      imageUrl: get( pokeInfo, 'sprites.other.dream_world.front_default' ),
       additionalInfo: {
         types: formatPokemonTypes( pokeInfo.types || null )
       }
@@ -74,7 +80,7 @@ const usePokemonData = () => {
   const fetchPokemonData = async ({ pageParam = 0 }) => {
     const pageData = await fetchPageData( pageParam );
     const { results: pagePokes } = pageData;
-    const updatedPokeResults = await Promise.all( _.map( pagePokes, fetchPokeDetails ));
+    const updatedPokeResults = await Promise.all( map( pagePokes, fetchPokeDetails ));
     const updatedPageData = { ...pageData, results: updatedPokeResults };
 
     return updatedPageData;
@@ -91,7 +97,7 @@ const usePokemonData = () => {
   } = useInfiniteQuery({
       queryKey: [ "pokemonData" ],
       queryFn: fetchPokemonData,
-      getNextPageParam: ( lastPage, pages ) => _.get( lastPage, 'next', "" ).length
+      getNextPageParam: ( lastPage, pages ) => get( lastPage, 'next', "" ).length
         ? pages.length
         : undefined,
       onError: err => {
