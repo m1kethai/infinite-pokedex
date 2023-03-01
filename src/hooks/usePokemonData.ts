@@ -5,74 +5,60 @@ import * as _ from 'lodash-es' //tmp: import all
 
 
 // * FETCH PARAMS:
-const MAX_FETCH_SIZE = 20;
+const FETCH_LIMIT = 30;
+const BASE_FETCH_URL = "https://pokeapi.co/api/v2/pokemon";
 
 const usePokemonData = () => {
-
   const fetchPageData = async ( pageNo ) => {
     const
-      offset = pageNo * MAX_FETCH_SIZE,
-      limit = MAX_FETCH_SIZE,
-      pageFetchUrl = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
+      offset = pageNo * FETCH_LIMIT,
+      limit = FETCH_LIMIT,
+      fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${limit}`;
 
-    const response = await fetch( pageFetchUrl );
-
+    const response = await fetch( fetchUrl );
     if ( !response.ok ) {
       debugger;
       throw new Error( "Failed to fetch Pokemon page #" + pageNo );
     }
-
     const pageData = await response.json();
 
-    return _.omit( pageData, [
-      // 'next',
-      'count',
-      'previous'
-    ])
+    return _.omit( pageData, [ 'count', 'previous' ])
   };
 
   const fetchPokeDetails = async ( pokeResult ) => {
     const pokeDetailsResponse = await fetch( pokeResult.url );
-
     if ( !pokeDetailsResponse.ok ) {
       debugger;
       throw new Error( "Failed to fetch Pokemon details" );
     }
-
     const pokeData = await pokeDetailsResponse.json();
     const updatedPokeData = await transformPokeData( pokeData );
-
-    // console.error(`🚀🚀 fetchPokeDetails - updatedPokeData:`, updatedPokeData);
 
     return updatedPokeData;
   };
 
-  const transformPokeData = async ( originalPokeData ) => {
+  const transformPokeData = async ( fetchedPokeData ) => {
     const pokeInfo = _.pick(
-      originalPokeData,
-      [ 'id', 'name', 'types', 'sprites' ]
+      fetchedPokeData,
+      ['id', 'name', 'types', 'sprites']
     );
 
     const formatPokemonTypes = ( pokeTypes ) => {
-      if ( !pokeTypes )
-        return "";
+      if ( !pokeTypes ) return "";
 
-      // ensure that the pokemon's primary type is always displayed first
+      // ensure the pokemon's primary type is always displayed first
       const sortedTypes = pokeTypes.length === 1 ? pokeTypes : _.sortBy( pokeTypes, [ 'slot' ]);
-
       const typeList: string[] = [];
 
       _.each( sortedTypes, type => {
         typeList.push(
-          // _.capitalize( type['type']['name'])
           _.has( type, 'type.name' )
             ? _.capitalize( type['type']['name'])
             : ""
         );
       })
 
-      const formatted = typeList.join(", ");
-      return formatted;
+      return typeList.join(", ");
     }
 
     return {
@@ -88,14 +74,8 @@ const usePokemonData = () => {
   const fetchPokemonData = async ({ pageParam = 0 }) => {
     const pageData = await fetchPageData( pageParam );
     const { results: pagePokes } = pageData;
-
-    // console.error("🚀🚀🚀 ~ fetchPokemonData ~ pageData:", pageData);
-
     const updatedPokeResults = await Promise.all( _.map( pagePokes, fetchPokeDetails ));
-    const updatedPageData = {
-      ...pageData,
-      results: updatedPokeResults
-    };
+    const updatedPageData = { ...pageData, results: updatedPokeResults };
 
     return updatedPageData;
   };
@@ -103,52 +83,32 @@ const usePokemonData = () => {
   const {
     data,
     status,
-    isSuccess,
-    isError,
     error,
     isLoading,
     isFetching,
-    isFetchingNextPage,
     hasNextPage,
-    hasPreviousPage,
     fetchNextPage
   } = useInfiniteQuery({
       queryKey: [ "pokemonData" ],
       queryFn: fetchPokemonData,
-      // select: data => {},
-      getNextPageParam: ( lastPage, pages ) => {
-        // const next = !_.isNull( lastPage.next ) ? pages.length : undefined;
-        const next = _.get( lastPage, 'next', "" ).length ? pages.length : undefined;
-        // console.log( `getNextPageParam next => ${next}` );
-
-        return next;
-      },
-
-      keepPreviousData: false,
-      // onSuccess: data => {
-      //   console.info("🚀🚀🚀 ~ usePokemonData ~ onSuccess - data:", data);
-      // },
+      getNextPageParam: ( lastPage, pages ) => _.get( lastPage, 'next', "" ).length
+        ? pages.length
+        : undefined,
       onError: err => {
         console.error("🚀🚀🚀 ~ usePokemonData ~ onError - err:", err);
-      },
+      }
     });
 
   const pokemonData = data ? data.pages.flatMap( page => page.results ) : [];
   const pokemonCount = pokemonData.length;
 
-  // const pokemonData = data?.pages.flatMap((page) => page.results) ?? [];
-
-// debugger;
-
   return {
+    status,
+    error,
     pokemonData,
     pokemonCount,
     isLoading,
     isFetching,
-    isFetchingNextPage,
-    status,
-    error,
-    hasPreviousPage,
     hasNextPage,
     fetchNextPage
   };

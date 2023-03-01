@@ -11,11 +11,9 @@ const POKEMON_ROW_HEIGHT = 80;
 
 const Pokedex = ({ clearCache }) => {
   const {
-    status,
     pokemonData,
     pokemonCount,
     isLoading,
-    isFetching,
     hasNextPage,
     fetchNextPage,
     error
@@ -26,16 +24,16 @@ const Pokedex = ({ clearCache }) => {
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
     count: hasNextPage ? pokemonCount + 1 : pokemonCount,
-    overscan: 5
+    overscan: 3
   })
 
   useEffect(() => {
-    const [ lastItem ] = [ ...rowVirtualizer.getVirtualItems()].reverse()
+    const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse()
     if (!lastItem) return
 
     if (
       pokemonData
-      && ( lastItem.index >= pokemonCount - 1 )
+      && lastItem.index >= pokemonCount - 1
       && hasNextPage
       && !isLoading
     ) fetchNextPage();
