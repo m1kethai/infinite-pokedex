@@ -21,48 +21,15 @@ const List = ({
           const pokemonRow = pokeData[ item.index ]
 
           return (
-            <li
+            <ListItem
               key={ item.index }
-              className="list__row"
-              style={{
-                height: `${item.size}px`,
-                transform: `translateY(${item.start}px)`,
-              }}
-            >
-              {isLoaderRow
-                ? hasNextPage
-                  ? 'Loading more Pokemon...'
-                  : 'You caught them all!' : (
-
-                    <div className='list__row__contents'>
-                      <div className='poke-info'>
-                        <div className='poke-info__top'>
-                          <span className='name'>
-                            { pokemonRow.name }
-                          </span>
-                        </div>
-                        <div className='poke-info__bottom'>
-                          <span className='id'>
-                            #{ pokemonRow.id }
-                          </span>
-                          <span>▫️</span>
-                          <span className='types'>
-                            { pokemonRow.additionalInfo.types }
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className='poke-image'>
-                        <img
-                          src={ pokemonRow.imageUrl }
-                          alt={ `${pokemonRow.name} image` }
-                        />
-                      </div>
-
-                    </div>
-                  )
-              }
-            </li>
+              index={ item.index }
+              size={ item.size }
+              start={ item.start }
+              isLoaderRow={ isLoaderRow }
+              pokemonRow={ pokemonRow }
+              hasNextPage={ hasNextPage }
+            />
           )
       })}
     </ul>

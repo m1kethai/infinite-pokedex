@@ -1,4 +1,5 @@
-import React from 'react';
+import './list-item.scss'
+import pokeball from '&/pokeball.svg'
 
 const ListItem = ({
   index,
@@ -12,14 +13,9 @@ const ListItem = ({
   const loaderRow = () => {
     return (
       <div className={ 'loading-row' }>
-        {
-          !hasNextPage
-          ? <span>You caught them all!</span>
-          : <>
-              <span>'Loading more Pokemon...'</span>
-              <div className={ 'spinner' }></div>
-            </>
-        }
+        {!hasNextPage
+          ? <h2>You caught them all!</h2>
+          : <img className='spinner' src={ pokeball }/>}
       </div>
     )
   }
@@ -33,36 +29,23 @@ const ListItem = ({
         transform: `translateY(${start}px)`,
       }}
     >
-      {
-        isLoaderRow ? loaderRow() : (
+      { isLoaderRow ? loaderRow() : (
           <div className='list__row__contents'>
             <div className='poke-info'>
               <div className='poke-info__top'>
-                <span className='name'>
-                  { pokemonRow.name }
-                </span>
+                <span className='name'>{ pokemonRow.name }</span>
               </div>
               <div className='poke-info__bottom'>
-                <span className='id'>
-                  #{ pokemonRow.id }
-                </span>
+                <span className='id'>#{ pokemonRow.id }</span>
                 <span>▫️</span>
-                <span className='types'>
-                  { pokemonRow.additionalInfo.types }
-                </span>
+                <span className='types'>{ pokemonRow.additionalInfo.types }</span>
               </div>
             </div>
-
             <div className='poke-image'>
-              <img
-                src={ pokemonRow.imageUrl }
-                alt={`${pokemonRow.name} image`}
-              />
+              <img src={ pokemonRow.imageUrl } alt={ `${pokemonRow.name} image` }/>
             </div>
-
           </div>
-        )
-      }
+        )}
     </li>
   )
 };
