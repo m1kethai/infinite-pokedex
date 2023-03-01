@@ -1,16 +1,6 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef } from 'react'
-
-// import { gsap } from "gsap"
-
-import PropTypes from 'prop-types';
 import ListItem from './ListItem/ListItem';
-
+import PropTypes from 'prop-types';
 import './list.scss';
-
 
 const List = ({
   pokeData,
@@ -61,7 +51,7 @@ const List = ({
                           </span>
                           <span>▫️</span>
                           <span className='types'>
-                            <i>{ pokemonRow.additionalInfo.types }</i>
+                            { pokemonRow.additionalInfo.types }
                           </span>
                         </div>
                       </div>

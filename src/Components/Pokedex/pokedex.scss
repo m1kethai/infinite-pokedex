@@ -22,7 +22,7 @@ $pokedex-color: #9c2424;
     // box-shadow: inset 10px 7px 17px 2px black;
 
     div.svg-wrapper {
-      padding-bottom: 2em;
+      // padding-bottom: 2em;
       box-shadow: inset -5px 0px 11px 0px #3d2424;
 
       > svg {
@@ -42,7 +42,8 @@ $pokedex-color: #9c2424;
 
   &--center {
     flex: 0 1 auto;
-    padding: 2em 8em;
+    padding: 3.5em 8em;
+    box-shadow: -5px 0px 2px 3px rgb(60 31 31 / 61%);
 
     //! TEMP - testing
     div.buttons {
@@ -52,12 +53,13 @@ $pokedex-color: #9c2424;
     }
 
     .pd-screen {
-      box-shadow: 0 0 3px 6px #131313f2;
+      border-radius: 5px;
+      border: 5px solid black;
+      box-shadow: 0 0 0px 10px rgb(229 229 229);
 
       > .pd-list-container {
         flex-direction: column;
-        // background: rgba(90, 106, 99, 0.8);
-        box-shadow: 0 0 0 2px #f8f8f8b0;
+        box-shadow: 0 0 0 1px white;
         overflow-y: scroll;
         border-radius: 1px;
 
@@ -66,14 +68,12 @@ $pokedex-color: #9c2424;
         }
 
         &::-webkit-scrollbar-track {
-          // box-shadow: inset 0 0 5px rgba(0, 49, 247, 0.6);
           background-color: #3b3b3b;
         }
 
         &::-webkit-scrollbar-thumb {
           background-color: #c09900;
           border-radius: 50px;
-          // outline: 1px dashed #c09900;
           // outline: none;
         }
       }
