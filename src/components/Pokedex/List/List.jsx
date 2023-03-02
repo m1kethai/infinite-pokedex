@@ -1,5 +1,5 @@
-import ListItem from './ListItem/ListItem';
 import PropTypes from 'prop-types';
+import ListItem from './ListItem/ListItem';
 import './list.scss';
 
 const List = ({
@@ -8,33 +8,30 @@ const List = ({
   listItems,
   listHeight,
   hasNextPage
-}) => {
+}) => (
+  <ul
+    className='list'
+    style={{ height: listHeight }}
+  >
+    {
+      listItems.map( item => {
+        const isLoaderRow = item.index > pokeCount - 1
+        const pokeDetails = pokeData[ item.index ]
 
-  return (
-    <ul
-      className="list"
-      style={{ height: listHeight }}
-    >
-      {
-        listItems.map( item => {
-          const isLoaderRow = item.index > pokeCount - 1
-          const pokemonRow = pokeData[ item.index ]
-
-          return (
-            <ListItem
-              key={ item.index }
-              index={ item.index }
-              size={ item.size }
-              start={ item.start }
-              isLoaderRow={ isLoaderRow }
-              pokemonRow={ pokemonRow }
-              hasNextPage={ hasNextPage }
-            />
-          )
-      })}
-    </ul>
-  );
-};
+        return (
+          <ListItem
+            key={ item.index }
+            itemIndex={ item.index }
+            itemSize={ item.size }
+            itemPos={ item.start }
+            isLoaderRow={ isLoaderRow }
+            pokeDetails={ pokeDetails }
+            hasNextPage={ hasNextPage }
+          />
+        )
+    })}
+  </ul>
+);
 
 List.propTypes = {
   pokeData: PropTypes.array.isRequired,

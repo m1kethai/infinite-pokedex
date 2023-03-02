@@ -1,3 +1,37 @@
+$poke-type-colors: (
+  grass: green,
+  poison: #1e401e,
+  fire: red,
+  water: #0098d4,
+  electric: #ffff00,
+  ground: #836539,
+  flying: #f8f6e6,
+  normal: lightgrey,
+  fighting: brown,
+  bug: #9adc00,
+  ice: #afe3d6,
+  rock: #2e2f31,
+  dark: midnightblue,
+  psychic: purple,
+  ghost: #4a144a,
+  fairy: lavender,
+  dragon: #ee7722
+);
+
+@mixin accessible-text-color( $bg ) {
+  $dark: #232323;
+  $light: #e7e7e7;
+
+  $color-brightness: round((red($bg) * 299) + (green($bg) * 587) + (blue($bg) * 114) / 1000);
+  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
+
+  @if abs($color-brightness) < (0.5*$light-color){
+    color: $light;
+  } @else {
+    color: $dark;
+  }
+}
+
 .list__row {
   position: absolute;
   top: 0;
@@ -8,10 +42,11 @@
   padding: 0.5em 1em;
 
   background-color: #3a3a3a;
+  box-shadow: inset 0 0 40px 5px #a29d9b14;
+
   border: 1px solid rgba(151, 151, 151, 0.25);
   border-left: none;
   border-right: none;
-  box-shadow: inset 0 0 40px 5px #a29d9b14;
 
   &, * { transition: 0.5s all }
 
@@ -24,12 +59,16 @@
     .poke-info {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      // justify-content: space-between;
       flex: 1 50%;
 
       font-family: var( --rubik );
       text-align: left;
       color: floralwhite;
+
+      &__top {
+        flex: 1;
+      }
 
       span {
         &.name {
@@ -38,26 +77,36 @@
           font-weight: 400;
         }
 
-        &.id,
-        &.types {
-          font-style: italic;
-        }
-
         &.id {
+          display: none;
           font-size: 1.3em;
           font-family: var( --rubik );
+
           + span {
             // separator char. between pokemon number + type(s)
+            display: none;
             margin: 0 0.45em;
             font-size: 1.3em;
           }
         }
 
         &.types {
-          font-size: 1.4em;
-          font-family: var( --raleway );
-          font-style: italic;
-          font-weight: 300;
+          font-family: var( --rubik );
+          text-transform: capitalize;
+          padding-bottom: 0.25em;
+
+          .type {
+            font-weight: lighter;
+            margin: 0 0.25em 0.5em 0;
+            font-size: 0.65rem;
+
+            @each $type, $col in $poke-type-colors {
+              &.#{$type} {
+                @include accessible-text-color( $col );
+                background-color: $col;
+              }
+            }
+          }
         }
       }
     }
@@ -69,7 +118,7 @@
       height: 100%;
 
       > img:hover {
-        animation: rock 500ms;
+        animation: wiggle 500ms;
       }
     }
   }
@@ -89,12 +138,12 @@
     background-color: #464646;
     .poke-image {
       margin-right: 0.5em;
-      animation: 500ms scale-up;
+      animation: 500ms grow;
     }
   }
 }
 
-@keyframes rock {
+@keyframes wiggle {
   0%, 100% {
     transform: rotate( -5deg );
   } 20% {
@@ -106,7 +155,7 @@
   }
 }
 
-@keyframes scale-up {
+@keyframes grow {
   0%, 100% {
     transform:scale( 1 )
   } 50% {

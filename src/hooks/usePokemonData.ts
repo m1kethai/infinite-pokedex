@@ -50,21 +50,13 @@ const usePokemonData = () => {
     );
 
     const formatPokemonTypes = ( pokeTypes ) => {
-      if ( !pokeTypes ) return "";
-
+      if ( !pokeTypes ) return [];
       // ensure the pokemon's primary type is always displayed first
-      const sortedTypes = pokeTypes.length === 1 ? pokeTypes : sortBy( pokeTypes, [ 'slot' ]);
-      const typeList: string[] = [];
+      const sortedTypes = pokeTypes.length > 1
+        ? sortBy( pokeTypes, [ 'slot' ])
+        : pokeTypes;
 
-      each( sortedTypes, type => {
-        typeList.push(
-          has( type, 'type.name' )
-            ? capitalize( type['type']['name'])
-            : ""
-        );
-      })
-
-      return typeList.join(", ");
+      return map( sortedTypes, type => get( type, 'type.name' ));
     }
 
     return {
