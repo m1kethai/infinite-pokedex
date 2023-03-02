@@ -19,16 +19,14 @@ $poke-type-colors: (
 );
 
 @mixin accessible-text-color( $bg ) {
-  $dark: #232323;
-  $light: #e7e7e7;
-
+  $dark: #232323; $light: #e7e7e7;
   $color-brightness: round((red($bg) * 299) + (green($bg) * 587) + (blue($bg) * 114) / 1000);
   $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
 
   @if abs($color-brightness) < (0.5*$light-color){
     color: $light;
   } @else {
-    color: $dark;
+    color: $dark ;
   }
 }
 
@@ -56,10 +54,9 @@ $poke-type-colors: (
     height: 100%;
     padding: 0.2em;
 
-    .poke-info {
+    .poke-info { // left side
       display: flex;
       flex-direction: column;
-      // justify-content: space-between;
       flex: 1 50%;
 
       font-family: var( --rubik );
@@ -67,30 +64,34 @@ $poke-type-colors: (
       color: floralwhite;
 
       &__top {
-        flex: 1;
-      }
+        display: flex;
+        flex: 0 1 auto;
+        align-items: center;
+        gap: 0.75em;
 
-      span {
-        &.name {
-          font-family: var( --rubik );
-          font-size: 2em;
-          font-weight: 400;
-        }
+        span {
+          &.name {
+            font-family: var( --rubik );
+            font-size: 2em;
+            font-weight: 400;
+          }
 
-        &.id {
-          // display: none;
-          font-size: 1.3em;
-          font-family: var( --rubik );
-
-          + span {
-            // separator char. between pokemon number + type(s)
-            display: none;
-            margin: 0 0.45em;
-            font-size: 1.3em;
+          &.id {
+            font-size: 1.05em;
+            font-family: var( --inter );
+            font-style: italic;
+            font-weight: 400;
+            opacity: 0.75;
           }
         }
+      }
 
-        &.types {
+      &__bottom {
+        display: flex;
+        flex: 1 0 auto;
+        align-items: flex-end;
+
+        > span.types {
           font-family: var( --rubik );
           text-transform: capitalize;
           padding-bottom: 0.25em;
@@ -111,7 +112,7 @@ $poke-type-colors: (
       }
     }
 
-    .poke-image {
+    .poke-image { // right side
       display: flex;
       justify-content: flex-end;
       flex: 0 1 20%;
@@ -123,7 +124,7 @@ $poke-type-colors: (
     }
   }
 
-  .loading-row {
+  > div.loading-row {
     display: flex;
     justify-content: center;
 
@@ -143,6 +144,7 @@ $poke-type-colors: (
   }
 }
 
+//* animations
 @keyframes wiggle {
   0%, 100% {
     transform: rotate( -5deg );
