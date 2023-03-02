@@ -1,24 +1,21 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import {
+  capitalize,
   get,
-  pick,
   map,
-  each,
-  has,
   omit,
-  sortBy,
-  capitalize
+  pick,
+  sortBy
 } from 'lodash-es'
 
 
-const FETCH_LIMIT = 30;
 const BASE_FETCH_URL = "https://pokeapi.co/api/v2/pokemon";
 
-const usePokemonData = () => {
+const usePokemonData = ( fetchLimit ) => {
   const fetchPageData = async ( pageNo: number ) => {
     const
-      offset = pageNo * FETCH_LIMIT,
-      limit = FETCH_LIMIT,
+      offset = pageNo * fetchLimit,
+      limit = fetchLimit,
       fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${limit}`;
 
     const response = await fetch( fetchUrl );
@@ -59,10 +56,18 @@ const usePokemonData = () => {
       return map( sortedTypes, type => get( type, 'type.name' ));
     }
 
+    const spritePath = 'sprites.other.dream_world.front_default',
+      fallback1SpritePath = 'sprites.other.home.front_default',
+      fallback2SpritePath = 'sprites.front_default';
+
     return {
       name: capitalize( pokeInfo.name ),
       id: pokeInfo.id,
-      imageUrl: get( pokeInfo, 'sprites.other.dream_world.front_default' ),
+      imageUrl: (
+        get( pokeInfo, spritePath )
+        || get( pokeInfo, fallback1SpritePath )
+        || get( pokeInfo, fallback2SpritePath )
+      ),
       additionalInfo: {
         types: formatPokemonTypes( pokeInfo.types || null )
       }
@@ -89,9 +94,10 @@ const usePokemonData = () => {
   } = useInfiniteQuery({
       queryKey: [ "pokemonData" ],
       queryFn: fetchPokemonData,
-      getNextPageParam: ( lastPage, pages ) => get( lastPage, 'next', "" ).length
-        ? pages.length
-        : undefined,
+      getNextPageParam: ( lastPage, pages ) =>
+        Object.keys( lastPage ).indexOf( 'next' ) !== -1 && lastPage['next'] !== null
+          ? pages.length
+          : undefined,
       onError: err => {
         console.error("🚀🚀🚀 ~ usePokemonData ~ onError - err:", err);
       }

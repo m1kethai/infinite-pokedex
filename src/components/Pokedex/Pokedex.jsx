@@ -5,42 +5,65 @@ import List from './List/List'
 import usePokemonData from '../../hooks/usePokemonData'
 import './pokedex.scss';
 
-
 const MAX_VISIBLE_ROWS = 5;
 const POKEMON_ROW_HEIGHT = 80;
+const FETCH_LIMIT = 30;
+const PREFETCH_LIMIT = 10;
 
 const Pokedex = ({ clearCache }) => {
   const {
+    status,
+    error,
     pokemonData,
     pokemonCount,
-    isLoading,
     hasNextPage,
     fetchNextPage,
-    error
-  } = usePokemonData();
+    isLoading,
+    isFetching
+  } = usePokemonData( FETCH_LIMIT );
 
   const parentRef = useRef()
   const rowVirtualizer = useVirtualizer({
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
-    count: hasNextPage ? pokemonCount + 1 : pokemonCount,
-    overscan: 3
+    // count: hasNextPage ? pokemonCount + 10 : pokemonCount,
+    // count: hasNextPage ? pokemonCount + 5 : pokemonCount,
+    count: hasNextPage ? pokemonCount + FETCH_LIMIT : pokemonCount,
+    overscan: 5,
+    enableSmoothScroll: true,
+    // debug: true
   })
+
+  // console.error("🚀🚀🚀 rowVirtualizer.getVirtualItems()", rowVirtualizer.getVirtualItems());
 
   useEffect(() => {
     const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse()
     if (!lastItem) return
 
+    const prefetchRow = pokemonCount - PREFETCH_LIMIT;
+    const fetchNextCondMet = !!( lastItem.index >= prefetchRow );
+
+    if ( fetchNextCondMet && !isLoading ) debugger;
+
+    console.info( `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~` );
+    console.info( `status => ${status}` );
+    console.info( `fetchNextCondMet => ${fetchNextCondMet}` );
+    console.info( `pokemonCount => ${pokemonCount}` );
+    console.info( `lastItem.index => ${lastItem.index}` );
+    console.info( `prefetchRow => ${prefetchRow}` );
+
+
     if (
       pokemonData
-      && lastItem.index >= pokemonCount - 1
+      && fetchNextCondMet
       && hasNextPage
       && !isLoading
+      && !isFetching
     ) fetchNextPage();
   }, [
     hasNextPage,
-    pokemonCount,
-    rowVirtualizer.getVirtualItems(),
+    // pokemonCount,
+    rowVirtualizer.getVirtualItems()
   ]);
 
   const renderListContainer = () => {

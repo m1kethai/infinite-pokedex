@@ -48,13 +48,17 @@ const ListItem = ({
             <div className='poke-info'>
               <div className='poke-info__top'>
                 <span className='name'>{pokeDetails.name}</span>
+                <span className='id'>    #{ pokeDetails.id }</span>
               </div>
               <div className='poke-info__bottom'>
                 {getPokeTypes( pokeDetails.additionalInfo.types )}
               </div>
             </div>
             <div className='poke-image'>
-              <img src={pokeDetails.imageUrl} alt={`${pokeDetails.name} image` }/>
+              <img
+                src={pokeDetails.imageUrl}
+                alt={`${pokeDetails.name} sprite` }
+              />
             </div>
           </div>
         )}

@@ -6,7 +6,9 @@ import './base-styles.scss'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 30000
+      // staleTime: 30000
+      // 10 mins:
+      staleTime: 10 * (60 * 1000)
     }
   }
 })
