@@ -11,53 +11,50 @@ const ListItem = ({
   hasNextPage
 }) => {
 
-  const loaderRow = () => {
-    return (
-      <div className={ 'loading-row' }>
-        {!hasNextPage
-          ? <h2>You caught them all!</h2>
-          : <img className='spinner' src={ pokeball }/>}
-      </div>
-    )
-  }
+  const loaderRow = () => (
+    <div className={'loading-row'}> {
+      !hasNextPage
+        ? <h2>You caught them all!</h2>
+        : <img className='spinner' src={pokeball} />
+    } </div>
+  );
 
-  const getPokeTypes = ( types ) => (
-    <span className='types tags'>{
-      types.map(( pokeType, typeIdx ) => (
+  const pokeTypeTags = ( pokeTypes ) => (
+    <span className='types tags'> {
+      pokeTypes.map(( typeName, typeIdx ) => (
         <span
-          key={`${itemIndex}--type${typeIdx}`}
-          className={`tag type is-rounded ${pokeType}`}
-        >
-          { pokeType }
+          key={`${ itemIndex }--type${ typeIdx }`}
+          className={`tag type is-rounded ${ typeName }`}
+        >{typeName}
         </span>
       ))
-    }</span>
-  )
+    } </span>
+  );
 
   return (
     <li
-      key={ itemIndex }
+      key={itemIndex}
       className="list__row"
       style={{
-        height: `${itemSize}px`,
-        transform: `translateY(${itemPos}px)`,
-      }}
-    >
-      { isLoaderRow ? loaderRow() : (
+        height: `${ itemSize }px`,
+        transform: `translateY(${ itemPos }px)`,
+      }}> {
+        isLoaderRow
+          ? loaderRow() : (
           <div className='list__row__contents'>
             <div className='poke-info'>
               <div className='poke-info__top'>
                 <span className='name'>{pokeDetails.name}</span>
-                <span className='id'>    #{ pokeDetails.id }</span>
+                <span className='id'>#{pokeDetails.id}</span>
               </div>
               <div className='poke-info__bottom'>
-                {getPokeTypes( pokeDetails.additionalInfo.types )}
+                {pokeTypeTags( pokeDetails.additionalInfo.types )}
               </div>
             </div>
             <div className='poke-image'>
               <img
                 src={pokeDetails.imageUrl}
-                alt={`${pokeDetails.name} sprite` }
+                alt={`${ pokeDetails.name } sprite`}
               />
             </div>
           </div>

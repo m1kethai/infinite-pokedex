@@ -1,3 +1,5 @@
+@import "bulma/sass/base/minireset";
+
 :root {
   //* base styles:
   --base-font-size: 10px;
@@ -10,6 +12,7 @@
   --rubik: 'Rubik', sans-serif;
   --pstp: 'Press Start 2P', cursive, sans-serif;
 
+  font-size: var( --base-font-size );
   background-color: var( --body-bg-color );
   color-scheme: light dark;
 
@@ -23,11 +26,11 @@
 
 #root {
   max-width: 1280px;
+
   margin: 0 auto;
   padding: 2rem;
 
-  font-size: var( --base-font-size );
-  font-family: --inter, system-ui;
-  line-height: 1.5;
+  font-family: var( --inter );
   color: var( --base-font-color );
+  line-height: 1.5;
 }

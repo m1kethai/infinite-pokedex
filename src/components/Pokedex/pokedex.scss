@@ -1,18 +1,17 @@
-@import 'bulma/bulma';
-
-
-$pokedex-body-color: rgb(182, 58, 58);
+$pokedex-width: 65rem;
+$pokedex-height: 85rem;
+$pokedex-color: rgb(182, 58, 58);
 
 .pokedex {
   display: flex;
   flex-direction: column;
 
-  width: 70em;
-  height: 95em;
-  margin: 10vh auto 0;
+  width: $pokedex-width;
+  height: $pokedex-height;
+  margin: 5vh auto 0;
   overflow: hidden;
 
-  background-color: $pokedex-body-color;
+  background-color: $pokedex-color;
   box-shadow: inset 0px 2px 15px 3px black;
   border-radius: 30px;
 }
@@ -39,14 +38,14 @@ $pokedex-body-color: rgb(182, 58, 58);
     div.lights {
       position: absolute;
       display: flex;
-      width: 250px;
-      height: 75px;
-      top: 25px;
-      left: 35px;
+      width: 25rem;
+      height: 7.5rem;
+      top: 2.5rem;
+      left: 3.5rem;
 
       &--big {
-        width: 75px;
-        height: 75px;
+        width: 7.5rem;
+        height: 7.5rem;
         border-radius: 50%;
         background-color: #4085a8;
         box-shadow: inset 0px 0px 15px 2px rgb(20 189 227 / 70%);
@@ -55,14 +54,14 @@ $pokedex-body-color: rgb(182, 58, 58);
 
       &--small {
         display: flex;
-        grid-gap: 1em;
-        max-width: 130px;
-        margin: 0.3em 0 0 3em;
+        grid-gap: 1rem;
+        max-width: 13rem;
+        margin: 0.3rem 0 0 3rem;
 
         .light {
-          width: 28px;
-          height: 28px;
-          margin-right: 0.5em;
+          width: 2.8rem;
+          height: 2.8rem;
+          margin-right: 0.5rem;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.5);
 
@@ -83,7 +82,7 @@ $pokedex-body-color: rgb(182, 58, 58);
 
   &--center {
     flex: 0 1 auto;
-    padding: 3.5em 8em;
+    padding: 3.5rem 8rem;
     box-shadow: -5px 0px 2px 3px rgb(60 31 31 / 61%);
 
     .pd-screen {
@@ -118,13 +117,13 @@ $pokedex-body-color: rgb(182, 58, 58);
     flex: 1;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 2em;
+    padding: 2rem;
 
     div.catchem {
       align-self: flex-end;
       font-family: var( --pstp );
-      font-size: 0.5em;
-      color: darken( $pokedex-body-color, 15% );
+      font-size: 0.5rem;
+      color: darken( $pokedex-color, 15% );
     }
   }
 }

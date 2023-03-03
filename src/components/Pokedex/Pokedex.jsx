@@ -26,32 +26,19 @@ const Pokedex = ({ clearCache }) => {
   const rowVirtualizer = useVirtualizer({
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
-    // count: hasNextPage ? pokemonCount + 10 : pokemonCount,
-    // count: hasNextPage ? pokemonCount + 5 : pokemonCount,
     count: hasNextPage ? pokemonCount + FETCH_LIMIT : pokemonCount,
     overscan: 5,
-    enableSmoothScroll: true,
-    // debug: true
+    enableSmoothScroll: true
   })
 
-  // console.error("🚀🚀🚀 rowVirtualizer.getVirtualItems()", rowVirtualizer.getVirtualItems());
-
   useEffect(() => {
-    const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse()
-    if (!lastItem) return
+    const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse();
 
-    const prefetchRow = pokemonCount - PREFETCH_LIMIT;
-    const fetchNextCondMet = !!( lastItem.index >= prefetchRow );
+    if (!lastItem)
+      return;
 
-    if ( fetchNextCondMet && !isLoading ) debugger;
-
-    console.info( `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~` );
-    console.info( `status => ${status}` );
-    console.info( `fetchNextCondMet => ${fetchNextCondMet}` );
-    console.info( `pokemonCount => ${pokemonCount}` );
-    console.info( `lastItem.index => ${lastItem.index}` );
-    console.info( `prefetchRow => ${prefetchRow}` );
-
+    const prefetchRowIdx = pokemonCount - PREFETCH_LIMIT;
+    const fetchNextCondMet = !!( lastItem.index >= prefetchRowIdx );
 
     if (
       pokemonData
@@ -62,7 +49,6 @@ const Pokedex = ({ clearCache }) => {
     ) fetchNextPage();
   }, [
     hasNextPage,
-    // pokemonCount,
     rowVirtualizer.getVirtualItems()
   ]);
 
@@ -84,8 +70,8 @@ const Pokedex = ({ clearCache }) => {
     )
   }
 
-  // for testing
   function resetData() {
+    // for testing
     clearCache();
   }
 
@@ -93,7 +79,9 @@ const Pokedex = ({ clearCache }) => {
     <div className='pokedex'>
       <div className='pd-body--top'>
         <div className='svg-wrapper'>
-          <svg><path d='m 0 124 q 0 6 6 6 h 4 h 230 c 33 0 39 -64 73 -64 h 150 q 7 0 7 -6'/></svg>
+        <svg viewbox="0 0 100 100" fill="none">
+            <path d='m 0 124 q 0 6 6 6 h 4 h 230 c 33 0 39 -64 73 -64 h 150 q 7 0 7 -6'/>
+          </svg>
         </div>
         <div className='lights'>
           <div className='lights--big'></div>

@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import ListItem from './ListItem/ListItem';
 import './list.scss';
 
-const List = ({
+const List = ( {
   pokeData,
   pokeCount,
   listItems,
   listHeight,
   hasNextPage
-}) => (
+} ) => (
   <ul
     className='list'
     style={{ height: listHeight }}
@@ -16,20 +16,20 @@ const List = ({
     {
       listItems.map( item => {
         const isLoaderRow = item.index > pokeCount - 1
-        const pokeDetails = pokeData[ item.index ]
+        const pokeDetails = pokeData[item.index]
 
         return (
           <ListItem
-            key={ item.index }
-            itemIndex={ item.index }
-            itemSize={ item.size }
-            itemPos={ item.start }
-            isLoaderRow={ isLoaderRow }
-            pokeDetails={ pokeDetails }
-            hasNextPage={ hasNextPage }
+            key={item.index}
+            itemIndex={item.index}
+            itemSize={item.size}
+            itemPos={item.start}
+            isLoaderRow={isLoaderRow}
+            pokeDetails={pokeDetails}
+            hasNextPage={hasNextPage}
           />
         )
-    })}
+      } )}
   </ul>
 );
 
