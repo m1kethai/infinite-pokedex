@@ -79,7 +79,7 @@ const Pokedex = ({ clearCache }) => {
     <div className='pokedex'>
       <div className='pd-body--top'>
         <div className='svg-wrapper'>
-        <svg viewbox="0 0 100 100" fill="none">
+        <svg fill="none">
             <path d='m 0 124 q 0 6 6 6 h 4 h 230 c 33 0 39 -64 73 -64 h 150 q 7 0 7 -6'/>
           </svg>
         </div>

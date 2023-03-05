@@ -22,15 +22,17 @@ $pokedex-color: rgb(182, 58, 58);
     position: relative;
 
     div.svg-wrapper {
-      box-shadow: inset -5px 0px 11px 0px #3d2424;
+      box-shadow: inset -5px 0 11px 0 #3d2424;
+
       > svg {
         width: 100%;
+
         path {
-          transform: scaleX(1.5);
+          transform: scaleX( 1.5 );
           fill: none;
-          stroke: rgb(37 33 33);
-          stroke-width: 3px;
-          filter: drop-shadow( 0px 4px 3px #333 );
+          stroke: rgb( 37 33 33 );
+          stroke-width: 0.3rem;
+          filter: drop-shadow( 0 4px 3px #333 );
         }
       }
     }
@@ -63,7 +65,7 @@ $pokedex-color: rgb(182, 58, 58);
           height: 2.8rem;
           margin-right: 0.5rem;
           border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.5);
+          border: 1px solid rgba( white, 0.5 );
 
           background-color: var( --light-color );
           box-shadow: 0 0 2px 1px var( --light-color );
@@ -83,12 +85,12 @@ $pokedex-color: rgb(182, 58, 58);
   &--center {
     flex: 0 1 auto;
     padding: 3.5rem 8rem;
-    box-shadow: -5px 0px 2px 3px rgb(60 31 31 / 61%);
+    box-shadow: -5px 0 2px 3px rgb( 60, 31, 31, 0.6 );
 
     .pd-screen {
       border-radius: 5px;
       border: 5px solid black;
-      box-shadow: 0 0 0px 10px rgb(229 229 229);
+      box-shadow: 0 0 0 10px rgb( 229 229 229 );
 
       > .pd-list-container {
         flex-direction: column;
@@ -96,15 +98,12 @@ $pokedex-color: rgb(182, 58, 58);
         overflow-y: scroll;
         border-radius: 1px;
 
+        // scrollbar style
         &::-webkit-scrollbar {
           width: 3px;
-        }
-
-        &::-webkit-scrollbar-track {
+        } &::-webkit-scrollbar-track {
           background-color: #3b3b3b;
-        }
-
-        &::-webkit-scrollbar-thumb {
+        } &::-webkit-scrollbar-thumb {
           background-color: #c09900;
           border-radius: 50px;
         }
@@ -122,8 +121,7 @@ $pokedex-color: rgb(182, 58, 58);
     div.catchem {
       align-self: flex-end;
       font-family: var( --pstp );
-      font-size: 0.5rem;
-      color: darken( $pokedex-color, 15% );
+      color: darken( $pokedex-color, 10 );
     }
   }
 }

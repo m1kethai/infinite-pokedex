@@ -1,19 +1,18 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+
 import Pokedex from './components/Pokedex/Pokedex.jsx'
-import './base-styles.scss'
+import './root-styles.scss'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // staleTime: 30000
-      // 10 mins:
       staleTime: 10 * (60 * 1000)
     }
   }
 })
 
-// Clear all Pokemon data from react-query cache
+// Clear all Pokemon data from react-query cache (for testing)
 function clear() {
   queryClient.clear();
 }

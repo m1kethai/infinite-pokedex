@@ -12,7 +12,7 @@ const ListItem = ({
 }) => {
 
   const loaderRow = () => (
-    <div className={'loading-row'}> {
+    <div className='loading-row'> {
       !hasNextPage
         ? <h2>You caught them all!</h2>
         : <img className='spinner' src={pokeball} />
@@ -34,7 +34,7 @@ const ListItem = ({
   return (
     <li
       key={itemIndex}
-      className="list__row"
+      className='list__row'
       style={{
         height: `${ itemSize }px`,
         transform: `translateY(${ itemPos }px)`,

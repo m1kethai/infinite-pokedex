@@ -19,15 +19,18 @@ $poke-type-colors: (
   steel: #4b4b4b
 );
 
-@mixin accessible-text-color( $bg ) {
-  $dark: #232323; $light: #e7e7e7;
-  $color-brightness: round((red($bg) * 299) + (green($bg) * 587) + (blue($bg) * 114) / 1000);
-  $light-color: round((red(#ffffff) * 299) + (green(#ffffff) * 587) + (blue(#ffffff) * 114) / 1000);
+@mixin accessible-text-color( $bg-color ) {
+  //* sets text to either a dark or light color, depending on the contrast w/ the background color
+  // formula based on W3C's color contrast accessibility guidelines: https://www.w3.org/TR/AERT/#color
+  $dark-color: #232323; $light-color: #e7e7e7;
 
-  @if abs($color-brightness) < (0.5*$light-color){
-    color: $light;
+  $bg-color-lightness: calc( ((red($bg-color) * 299) + (green($bg-color) * 587) + (blue($bg-color) * 114)) / 1000 );
+  $light-color-lightness: calc( ((red($light-color) * 299) + (green($light-color) * 587) + (blue($light-color) * 114)) / 1000 );
+
+  @if abs( round( $bg-color-lightness )) < ( round( $light-color-lightness ) * 0.5 ) {
+    color: $light-color;
   } @else {
-    color: $dark ;
+    color: $dark-color;
   }
 }
 
@@ -38,7 +41,7 @@ $poke-type-colors: (
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0.2rem 1rem 0.5rem;
+  // padding: 0.2rem 1rem 0.5rem;
 
   background-color: #3a3a3a;
   box-shadow: inset 0 0 4rem 0.5rem #a29d9b14;
@@ -53,16 +56,17 @@ $poke-type-colors: (
     display: flex;
     justify-content: space-between;
     height: 100%;
-    padding: 0.2rem;
+    padding: 0 0.75rem;
 
-    .poke-info { // left side
+    .poke-info { // left
       display: flex;
       flex-direction: column;
       flex: 1 50%;
+      padding: 0.2rem 0;
 
+      color: floralwhite;
       font-family: var( --rubik );
       text-align: left;
-      color: floralwhite;
       text-transform: capitalize;
 
       &__top {
@@ -74,9 +78,7 @@ $poke-type-colors: (
         span {
           &.name {
             font-size: 2.25rem;
-          }
-
-          &.id {
+          } &.id {
             font-size: 1.05rem;
             font-family: var( --inter );
             font-style: italic;
@@ -92,27 +94,27 @@ $poke-type-colors: (
 
         > span.types {
           display: flex;
+          margin-bottom: 0.5rem;
           gap: 0.5rem;
 
           .type {
-            flex: 1 0 50%;
             display: inline-flex;
-            align-items: center;
             justify-content: center;
-            height: 2.3rem;
-            min-width: 5rem;
-            padding: 0.1rem 0.75rem;
+            align-items: center;
+            height: 2.1rem;
+            padding: 0 0.75rem;
+            font-size: 1.25rem;
             font-family: var( --rubik );
-            font-size: 1.3rem;
-            border: 1px solid;
-            border-style: dotted;
+            font-weight: 500;
+            border: 1px dotted;
             border-radius: 2rem;
 
-            @each $type, $col in $poke-type-colors {
-              &.#{$type} {
-                @include accessible-text-color( $col );
-                background-color: $col;
-                border-color: lighten( $col, 5 );
+            @each $type-name, $type-color in $poke-type-colors {
+              &.#{$type-name} {
+                @include accessible-text-color( $type-color );
+                background-color: $type-color;
+                border-color: rgba( $type-color, 0.5 );
+                box-shadow: inset 0 0 10px 2px darken( $type-color, 3 );
               }
             }
           }
@@ -120,11 +122,12 @@ $poke-type-colors: (
       }
     }
 
-    .poke-image { // right side
+    .poke-image { // right
       display: flex;
       justify-content: flex-end;
       flex: 0 1 20%;
-      height: 100%;
+      max-width: 8rem;
+      padding: 0.5rem 0;
 
       > img:hover {
         animation: wiggle 500ms;

@@ -2,8 +2,8 @@
 
 :root {
   //* base styles:
-  --base-font-size: 10px;
-  --base-font-color: floralwhite;
+  --root-font-size: 10px;
+  --root-font-color: floralwhite;
   --body-bg-color: #323232;
 
   //* custom fonts:
@@ -12,7 +12,7 @@
   --rubik: 'Rubik', sans-serif;
   --pstp: 'Press Start 2P', cursive, sans-serif;
 
-  font-size: var( --base-font-size );
+  font-size: var( --root-font-size );
   background-color: var( --body-bg-color );
   color-scheme: light dark;
 
@@ -31,6 +31,6 @@
   padding: 2rem;
 
   font-family: var( --inter );
-  color: var( --base-font-color );
+  color: var( --root-font-color );
   line-height: 1.5;
 }
