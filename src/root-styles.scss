@@ -34,3 +34,7 @@
   color: var( --root-font-color );
   line-height: 1.5;
 }
+
+::selection {
+  background-color: #9c2c2c;
+}
