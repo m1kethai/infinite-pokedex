@@ -1,38 +1,37 @@
-import {useInfiniteQuery} from "@tanstack/react-query"
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { get, map, pick, sortBy } from 'lodash-es';
 import {
-  capitalize,
-  get,
-  map,
-  omit,
-  pick,
-  sortBy
-} from 'lodash-es'
-
+  PageResp,
+  PokeResp,
+  PokeTypeSlot,
+  PokeInfo,
+  PokeData,
+  PokeType
+} from '../types/pokemon-types'
 
 const BASE_FETCH_URL = "https://pokeapi.co/api/v2/pokemon";
 
-const usePokemonData = ( fetchLimit ) => {
-  const fetchPageData = async ( pageNo: number ) => {
-    const
-      offset = pageNo * fetchLimit,
-      limit = fetchLimit,
-      fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${limit}`;
+const usePokemonData = ( fetchLimit: number ): PokeData => {
+  const fetchPageData = async ( pageNo: number ): Promise<PageResp> => {
+    const offset = pageNo * fetchLimit;
+    const limit = fetchLimit;
+    const fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${limit}`;
 
     const response = await fetch( fetchUrl );
     if ( !response.ok ) {
       debugger;
       throw new Error( "Failed to fetch Pokemon page #" + pageNo );
     }
-    const pageData = await response.json();
 
-    return omit( pageData, [ 'count', 'previous' ] )
+    const { next, results } = await response.json();
+    return { next, results }
   };
 
-  const fetchPokeDetails = async ( pokeResult ) => {
+  const fetchPokeDetails = async ( pokeResult: PokeResp ): Promise<PokeInfo> => {
     const pokeDetailsResponse = await fetch( pokeResult.url );
     if ( !pokeDetailsResponse.ok ) {
       debugger;
-      throw new Error( "Failed to fetch Pokemon details" );
+      throw new Error("Failed to fetch Pokemon details");
     }
     const pokeData = await pokeDetailsResponse.json();
     const updatedPokeData = await transformPokeData( pokeData );
@@ -40,25 +39,20 @@ const usePokemonData = ( fetchLimit ) => {
     return updatedPokeData;
   };
 
-  const transformPokeData = async ( fetchedPokeData ) => {
-    const pokeInfo = pick(
-      fetchedPokeData,
-      [ 'id', 'name', 'types', 'sprites' ]
-    );
+  const transformPokeData = async ( fetchedPokeData: any ): Promise<PokeInfo> => {
+    const pokeInfo = pick( fetchedPokeData, ['id', 'name', 'types', 'sprites']);
 
-    const formatPokemonTypes = ( pokeTypes ) => {
+    const formatPokemonTypes = ( pokeTypes: PokeTypeSlot[]): PokeType[] => {
       if ( !pokeTypes ) return [];
       // ensure the pokemon's primary type is always displayed first
-      const sortedTypes = pokeTypes.length > 1
-        ? sortBy( pokeTypes, [ 'slot' ] )
-        : pokeTypes;
+      const sortedTypes = pokeTypes.length > 1 ? sortBy( pokeTypes, ['slot']) : pokeTypes;
 
-      return map( sortedTypes, type => get( type, 'type.name' ) );
+      return map( sortedTypes, type => get( type, 'type.name' )) as PokeType[];
     }
 
-    const spritePath1 = 'sprites.other.dream_world.front_default',
-      spritePath2 = 'sprites.other.home.front_default',
-      spritePath3 = 'sprites.front_default';
+    const spritePath1 = 'sprites.other.dream_world.front_default';
+    const spritePath2 = 'sprites.other.home.front_default';
+    const spritePath3 = 'sprites.front_default';
 
     return {
       name: pokeInfo.name,
@@ -69,16 +63,16 @@ const usePokemonData = ( fetchLimit ) => {
         || get( pokeInfo, spritePath3 )
       ),
       additionalInfo: {
-        types: formatPokemonTypes( pokeInfo.types || null )
+        types: formatPokemonTypes( pokeInfo.types )
       }
     };
   }
 
-  const fetchPokemonData = async ({ pageParam = 0 }) => {
+  const fetchPokemonData = async ({ pageParam = 0 }): Promise<any> => {
     const pageData = await fetchPageData( pageParam );
-    const {results: pagePokes} = pageData;
+    const { results: pagePokes } = pageData;
     const updatedPokeResults = await Promise.all( map( pagePokes, fetchPokeDetails ));
-    const updatedPageData = {...pageData, results: updatedPokeResults};
+    const updatedPageData = { ...pageData, results: updatedPokeResults };
 
     return updatedPageData;
   };
