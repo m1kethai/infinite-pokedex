@@ -27,15 +27,14 @@ const Pokedex = ({ clearCache }) => {
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
     count: hasNextPage ? pokemonCount + FETCH_LIMIT : pokemonCount,
-    overscan: 5,
+    overscan: 1,
     enableSmoothScroll: true
   })
 
-  useEffect(() => {
+  useEffect( () => {
     const [ lastItem ] = [...rowVirtualizer.getVirtualItems()].reverse();
 
-    if (!lastItem)
-      return;
+    if ( !lastItem ) return;
 
     const prefetchRowIdx = pokemonCount - PREFETCH_LIMIT;
     const fetchNextCondMet = !!( lastItem.index >= prefetchRowIdx );

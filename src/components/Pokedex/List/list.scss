@@ -4,5 +4,8 @@ ul.list {
   flex-direction: column;
   align-self: center;
   overflow: hidden;
+
+  cursor: crosshair;
+  caret-color: transparent;
 }
 

@@ -13,9 +13,11 @@ const ListItem = ({
 
   const loaderRow = () => (
     <div className='loading-row'> {
-      !hasNextPage
-        ? <h2>You caught them all!</h2>
-        : <img className='spinner' src={pokeball} />
+      hasNextPage
+        ? <img
+            className='spinner'
+            src={ pokeball }/>
+        : <h2>You caught them all!</h2>
     } </div>
   );
 
@@ -25,7 +27,7 @@ const ListItem = ({
         <span
           key={`${ itemIndex }--type${ typeIdx }`}
           className={`tag type is-rounded ${ typeName }`}
-        >{typeName}
+        >{ typeName }
         </span>
       ))
     } </span>
@@ -44,17 +46,21 @@ const ListItem = ({
           <div className='list__row__contents'>
             <div className='poke-info'>
               <div className='poke-info__top'>
-                <span className='name'>{pokeDetails.name}</span>
-                <span className='id'>#{pokeDetails.id}</span>
+                <span className='name'>
+                  { pokeDetails.name }
+                </span>
+                <span className='id'>
+                  {`#${ pokeDetails.id }`}
+                </span>
               </div>
               <div className='poke-info__bottom'>
-                {pokeTypeTags( pokeDetails.additionalInfo.types )}
+                { pokeTypeTags( pokeDetails.additionalInfo.types ) }
               </div>
             </div>
             <div className='poke-image'>
               <img
-                src={pokeDetails.imageUrl}
-                alt={`${ pokeDetails.name } sprite`}
+                src={ pokeDetails.imageUrl }
+                alt={`${ pokeDetails.name} sprite`}
               />
             </div>
           </div>

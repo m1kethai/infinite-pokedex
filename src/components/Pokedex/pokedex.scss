@@ -26,6 +26,8 @@ $pokedex-color: #bf3737;
 
       > svg {
         width: 100%;
+        height: 140px;
+        margin: -1rem 0 1rem;
 
         path {
           transform: scaleX( 1.5 );
@@ -41,7 +43,6 @@ $pokedex-color: #bf3737;
       position: absolute;
       display: flex;
       width: 25rem;
-      height: 7.5rem;
       top: 2.5rem;
       left: 3.5rem;
 
@@ -148,10 +149,11 @@ $pokedex-color: #bf3737;
     padding: 2rem;
 
     div.catchem {
-      align-self: flex-end;
+      align-self: center;
       font-family: var( --pstp );
-      color: #d9d9d9;
+      color: #d45757;
       text-decoration: underline;
+      transform: scale( 0.65 );
     }
   }
 }

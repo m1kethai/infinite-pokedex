@@ -1,12 +1,12 @@
 $poke-type-colors: (
-  grass: green,
-  poison: #1e401e,
+  grass: #00a300,
+  poison: #1a591a,
   fire: red,
   water: #0098d4,
   electric: #ffff00,
   ground: #836539,
   flying: #f8f6e6,
-  normal: rgb(231, 231, 231),
+  normal: #e7e7e7,
   fighting: brown,
   bug: #9adc00,
   ice: #afe3d6,
@@ -20,20 +20,34 @@ $poke-type-colors: (
 );
 $row-bg-color: #404040;
 
-@mixin accessible-text-color( $bg-color ) {
-  //* sets text to either a dark or light color, depending on the contrast w/ the background color
-  // formula based on W3C's color contrast accessibility guidelines: https://www.w3.org/TR/AERT/#color
-  $dark-color: #232323; $light-color: #e7e7e7;
+@function get-brightness-value( $col ) {
+  $r: red( $col ) * 299;
+  $g: green( $col ) * 587;
+  $b: blue( $col ) * 114;
 
-  $bg-color-lightness: calc( ((red($bg-color) * 299) + (green($bg-color) * 587) + (blue($bg-color) * 114)) / 1000 );
-  $light-color-lightness: calc( ((red($light-color) * 299) + (green($light-color) * 587) + (blue($light-color) * 114)) / 1000 );
+  $bv: ( $r + $g + $b ) / 1000;
+  @return round( $bv );
+}
 
-  @if abs( round( $bg-color-lightness )) < ( round( $light-color-lightness ) * 0.5 ) {
-    color: $light-color;
+// sets foreground color to either dark or light, determined by its contrast ratio w/ the background color
+// formula based on W3C's color contrast accessibility guidelines: https://www.w3.org/TR/AERT/#color
+@mixin accessible-text-color(
+  $bg-color,
+  $dark: #232323,
+  $light: #e7e7e7
+ ) {
+
+  $bgv: get-brightness-value( $bg-color );
+  $lv: get-brightness-value( $light );
+
+  @if abs( $bgv ) < ( 0.4 * $lv ) {
+    color: $light;
   } @else {
-    color: $dark-color;
+    color: $dark;
   }
 }
+
+//* STYLES ----------------------------------------
 
 .list__row {
   position: absolute;
@@ -64,8 +78,7 @@ $row-bg-color: #404040;
       display: flex;
       flex-direction: column;
       flex: 1 50%;
-      padding: 0.2rem 0;
-
+      padding: 0.2em 0;
       color: floralwhite;
       font-family: var( --rubik );
       text-align: left;
@@ -74,17 +87,18 @@ $row-bg-color: #404040;
       &__top {
         display: flex;
         flex: 0 1 auto;
-        align-items: center;
-        gap: 0.65rem;
+        gap: 0.65em;
 
         span {
           &.name {
-            font-size: 2.25rem;
+            font-size: 2.5em;
           } &.id {
-            font-size: 1.05rem;
+            transform: scale( 0.8 );
+            padding-top: 0.1em;
             font-family: var( --inter );
             font-style: italic;
             opacity: 0.75;
+            color: #ddd3bf;
           }
         }
       }
@@ -96,18 +110,16 @@ $row-bg-color: #404040;
 
         > span.types {
           display: flex;
-          margin-bottom: 0.5rem;
-          gap: 0.5rem;
+          margin-bottom: 0.5em;
+          gap: 0.65em;
 
           .type {
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            height: 2.1rem;
-            padding: 0 0.75rem;
-            font-size: 1.25rem;
+            padding: 0 1.2em;
+            font-size: 0.75em;
             font-family: var( --rubik );
-            font-weight: 500;
             border: 1px dotted;
             border-radius: 2rem;
 
@@ -128,8 +140,8 @@ $row-bg-color: #404040;
       display: flex;
       justify-content: flex-end;
       flex: 0 1 20%;
-      max-width: 8rem;
-      padding: 0.5rem 0;
+      max-width: 8em;
+      padding: 0.5em 0;
       user-select: none;
 
       > img:hover {
@@ -150,7 +162,6 @@ $row-bg-color: #404040;
   }
 
   &:hover {
-    cursor: crosshair;
     background-color: darken( $row-bg-color, 6 );
     border-color: #d6af00;
     border-top-style: dashed;
