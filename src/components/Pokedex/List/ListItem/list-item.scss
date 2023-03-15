@@ -40,7 +40,7 @@ $row-bg-color: #404040;
   $bgv: get-brightness-value( $bg-color );
   $lv: get-brightness-value( $light );
 
-  @if abs( $bgv ) < ( 0.4 * $lv ) {
+  @if abs( $bgv ) < ( 0.5 * $lv ) {
     color: $light;
   } @else {
     color: $dark;
