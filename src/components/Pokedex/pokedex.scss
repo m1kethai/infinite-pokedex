@@ -3,7 +3,6 @@ $pokedex-color: #bf3737;
 .pokedex {
   --max-width: 65rem;
   --max-height: 90rem;
-
   --aspect-ratio: 1.5;
   --width: min( var( --max-width ), 100% );
 
@@ -13,21 +12,13 @@ $pokedex-color: #bf3737;
     calc( var( --width ) * var( --aspect-ratio )),
     var( --max-height )
   );
-  // --height: min(
-  //   calc( var( --width ) * var( --aspect-ratio )),
-  //   var( --max-height )
-  // );
 
+  width: var( --width );
+  height: var( --max-height );
+  min-width: 400px;
   display: flex;
   flex-direction: column;
 
-  width: var( --width );
-
-  height: var( --max-height );
-  // height: var( --height );
-  // height: var( --var );
-
-  // margin: 2vh auto;
   overflow: hidden;
 
   background-color: $pokedex-color;
@@ -35,8 +26,7 @@ $pokedex-color: #bf3737;
   border-radius: 30px;
 
   @include mobile {
-    max-height: 85vh;
-    // max-width: 1.3;
+    --max-height: 95vh;
   }
 }
 
