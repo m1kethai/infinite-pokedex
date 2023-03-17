@@ -1,19 +1,43 @@
-$pokedex-width: 65rem;
-$pokedex-height: 85rem;
 $pokedex-color: #bf3737;
 
 .pokedex {
+  --max-width: 65rem;
+  --max-height: 90rem;
+
+  --aspect-ratio: 1.5;
+  --width: min( var( --max-width ), 100% );
+
+  --var: calc( var( --width ) * var( --aspect-ratio ));
+
+  --height: max(
+    calc( var( --width ) * var( --aspect-ratio )),
+    var( --max-height )
+  );
+  // --height: min(
+  //   calc( var( --width ) * var( --aspect-ratio )),
+  //   var( --max-height )
+  // );
+
   display: flex;
   flex-direction: column;
 
-  width: $pokedex-width;
-  height: $pokedex-height;
-  margin: 5vh auto 0;
+  width: var( --width );
+
+  height: var( --max-height );
+  // height: var( --height );
+  // height: var( --var );
+
+  // margin: 2vh auto;
   overflow: hidden;
 
   background-color: $pokedex-color;
   box-shadow: inset 0px 2px 15px 3px black;
   border-radius: 30px;
+
+  @include mobile {
+    max-height: 85vh;
+    // max-width: 1.3;
+  }
 }
 
 .pd-body {
@@ -91,7 +115,7 @@ $pokedex-color: #bf3737;
     .pd-screen {
       border-radius: 5px;
       border: 5px solid black;
-      box-shadow: 0 0 0 10px rgb( 229 229 229 );
+      box-shadow: 0 0 0 10px #e5e5e5;
 
       > .pd-list-container {
         flex-direction: column;
@@ -137,6 +161,14 @@ $pokedex-color: #bf3737;
             $tertiary-bg 100%
           );
         }
+      }
+    }
+
+    @include mobile {
+      padding: 3.5rem;
+
+      .pd-screen {
+        box-shadow: 0 0 0 0.75em #e5e5e5;
       }
     }
   }

@@ -25,7 +25,7 @@ $row-bg-color: #404040;
   $g: green( $col ) * 587;
   $b: blue( $col ) * 114;
 
-  $bv: ( $r + $g + $b ) / 1000;
+  $bv: calc(( $r + $g + $b ) / 1000 );
   @return round( $bv );
 }
 
@@ -130,6 +130,34 @@ $row-bg-color: #404040;
                 border-color: rgba( $type-color, 0.5 );
                 box-shadow: inset 0 0 10px 2px darken( $type-color, 3 );
               }
+            }
+          }
+        }
+      }
+
+      @include mobile {
+        &__top {
+          span.name {
+            font-size: 2.1em;
+          }
+
+          span.id {
+            transform: scale( 1 );
+            padding-top: 0.7em;
+            font-family: inherit;
+            font-style: unset;
+          }
+
+        } &__bottom {
+          > span.types {
+            font-size: 1.4em;
+            gap: 0;
+            // margin-bottom: 0.1em;
+
+            > .type {
+              font-weight: bolder;
+              padding: 0 0.8em;
+              margin-bottom: 0;
             }
           }
         }

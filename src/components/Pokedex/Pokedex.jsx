@@ -3,7 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 
 import List from './List/List'
 import usePokemonData from '../../hooks/usePokemonData'
-import './pokedex.scss';
+// import './pokedex.scss';
 
 const MAX_VISIBLE_ROWS = 5;
 const POKEMON_ROW_HEIGHT = 80;

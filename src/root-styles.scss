@@ -1,10 +1,13 @@
-@import "bulma/sass/base/minireset";
+// @import "bulma/sass/base/minireset";
+// @import "bulma/sass/utilities/_all";
+@import "bulma/bulma";
 
 :root {
   //* base styles:
-  --root-font-size: 8px;
+  --root-font-size: 10px;
   --root-font-color: floralwhite;
-  --body-bg-color: #323232;
+  // --root-bg-color: #323232;
+  --root-bg-color: rgb(196, 171, 166);
 
   //* custom fonts:
   --inter: 'Inter', sans-serif;
@@ -13,7 +16,7 @@
   --pstp: 'Press Start 2P', cursive, sans-serif;
 
   font-size: var( --root-font-size );
-  background-color: var( --body-bg-color );
+  background-color: var( --root-bg-color );
   color-scheme: light dark;
 
   font-synthesis: none;
@@ -24,15 +27,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  max-width: 1280px;
+div#root {
+  display: flex;
+  justify-content: center;
 
+  max-height: 100vh;
   margin: 0 auto;
-  padding: 2rem;
+  padding: $gap;
 
-  font-family: var( --inter );
   color: var( --root-font-color );
+  font-family: var( --inter );
   line-height: 1.5;
+
+  @include mobile {
+    padding: 1rem;
+  }
+
+  @include widescreen {
+    max-width: 1280px;
+  }
 }
 
 ::selection {

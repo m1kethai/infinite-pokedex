@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import Pokedex from './components/Pokedex/Pokedex.jsx'
 import './root-styles.scss'
+import './components/Pokedex/pokedex.scss';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +22,7 @@ function App() {
   return (
     <QueryClientProvider client={ queryClient }>
       <Pokedex clearCache={ clear }/>
-      <ReactQueryDevtools initialIsOpen={ false }/>
+      {/* <ReactQueryDevtools initialIsOpen={ false }/> */}
     </QueryClientProvider>
   )
 }
