@@ -13,17 +13,17 @@ $pokedex-color: #bf3737;
     var( --max-height )
   );
 
-  width: var( --width );
-  height: var( --max-height );
-  min-width: 400px;
   display: flex;
   flex-direction: column;
 
-  overflow: hidden;
+  width: var( --width );
+  height: var( --max-height );
+  min-width: 360px;
 
   background-color: $pokedex-color;
   box-shadow: inset 0px 2px 15px 3px black;
   border-radius: 30px;
+  overflow: hidden;
 
   @include mobile {
     --max-height: 95vh;
