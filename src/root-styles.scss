@@ -1,13 +1,11 @@
-// @import "bulma/sass/base/minireset";
-// @import "bulma/sass/utilities/_all";
 @import "bulma/bulma";
 
 :root {
   //* base styles:
   --root-font-size: 10px;
   --root-font-color: floralwhite;
-  // --root-bg-color: #323232;
-  --root-bg-color: rgb(196, 171, 166);
+  --root-bg-color: linear-gradient(225deg, hsla(0, 83%, 81%, 1) 0%, hsla(185, 41%, 84%, 1) 100%);
+
 
   //* custom fonts:
   --inter: 'Inter', sans-serif;
