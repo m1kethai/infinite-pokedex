@@ -162,11 +162,17 @@
     }
 
     @include mobile {
-      justify-content: center;
-      color: #d45757;
-      font-family: var( --pstp );
-      text-decoration: underline;
-      transform: scale( 0.75 );
+      padding: 3.5rem;
+
+      .pd-screen {
+        box-shadow: 0 0 0 0.75em #e5e5e5;
+      }
     }
+  }
+
+  &--bottom {
+    display: flex;
+    flex: 1;
+    padding: 2rem;
   }
 }
