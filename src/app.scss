@@ -10,8 +10,12 @@
   font-family: var( --inter );
   color: var( --root-font-color );
 
+  @include mobile {
+    padding: 1.5rem;
+  }
+
   @include widescreen {
-    max-width: 1280px;
+    max-width: $fullhd;
     margin: auto;
   }
 }

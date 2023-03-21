@@ -1,3 +1,19 @@
+.catchem {
+  font-size: $size-3;
+  font-family: var( --pstp );
+  text-decoration: underline;
+  color: inherit;
+  animation: 500ms linear flip-in;
+  text-align: center;
+
+  &-container {
+    margin: 1vh 0 2vh;
+    color: #eb2121;
+    animation: 1s cubic-bezier( 0.4, 0, 1, 1 ) unskew;
+    transition: 10ms color;
+  }
+}
+
 @keyframes flip-in {
   0%, 100% {
     transform: rotateX( 0deg );
@@ -23,18 +39,4 @@
     transform: skewX( 0deg );
     color: #eb2121
   }
-}
-
-.catchem {
-  &-container {
-    animation: 1s cubic-bezier( 0.4, 0, 1, 1 ) unskew;
-    color: #eb2121;
-    transition: 10ms color;
-  }
-
-  font-size: $size-3;
-  font-family: var( --pstp );
-  text-decoration: underline;
-  color: inherit;
-  animation: 500ms linear flip-in;
 }

@@ -218,9 +218,9 @@ $row-bg-color: #404040;
 
 @keyframes grow {
   0%, 100% {
-    transform:scale( 1 )
+    transform: scale( 1 );
   } 50% {
-    transform:scale( 1.05 )
+    transform:scale( 1.05 );
   }
 }
 
