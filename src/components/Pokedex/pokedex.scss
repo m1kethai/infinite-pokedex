@@ -1,34 +1,39 @@
 .pokedex {
   --pd-color: #bf3737;
 
-  --aspect-ratio: 1.5;
+  --ar: 1.5;
+  --min-width: 360px;
 
-  --max-width: 65rem; 
-  --max-height: 90rem;
-
-  --width: min( 
-    var( --max-width ), 
-    100% 
-  ); 
-  --height: max(
-    calc( var( --width ) * var( --aspect-ratio )),
-    var( --max-height )
+  --pd-width: 65rem;
+  --pd-height: min(
+    calc( var( --pd-width ) * var( --ar )),
+    85vh
   );
+
+  --margin-v: calc(( 100vh - ( var( --pd-height )) * 0.5 ));
+  --margin-vv: math.div(
+    calc( 100vh - var( --pd-height )),
+    2
+  );
+  --margin-h: auto;
 
   display: flex;
   flex-direction: column;
 
-  width: var( --width );
-  height: var( --max-height );
-  min-width: 360px;
+  width: var( --pd-width );
+  height: var( --pd-height );
+  min-width: var( --min-width );
 
-  background-color: --var( --pd-color );
+  margin: var( --margin-vv ) var( --margin-h );
+
+  background-color: var( --pd-color );
   box-shadow: inset 0px 2px 15px 3px black;
   border-radius: 30px;
   overflow: hidden;
 
   @include mobile {
-    --max-height: 86vh;
+    --pd-width: 100%;
+    --margin-h: 1.5em;
   }
 }
 
@@ -132,7 +137,7 @@
           background-color: #454545;
 
         } &::-webkit-scrollbar-thumb {
-          $primary-bg: $pokedex-color;
+          $primary-bg: var( --pd-color );
           $secondary-bg:#00a900;
           $tertiary-bg: #e1c300;
 
@@ -157,25 +162,9 @@
     }
 
     @include mobile {
-      padding: 3.5rem;
-
-      .pd-screen {
-        box-shadow: 0 0 0 0.75em #e5e5e5;
-      }
-    }
-  }
-
-  &--bottom {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem;
-
-    div.catchem {
-      align-self: center;
-      font-family: var( --pstp );
+      justify-content: center;
       color: #d45757;
+      font-family: var( --pstp );
       text-decoration: underline;
       transform: scale( 0.75 );
     }

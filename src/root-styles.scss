@@ -1,11 +1,8 @@
-@import "bulma/bulma";
-
 :root {
   //* base styles:
   --root-font-size: 10px;
   --root-font-color: floralwhite;
-  --root-bg-color: linear-gradient(225deg, hsla(0, 83%, 81%, 1) 0%, hsla(185, 41%, 84%, 1) 100%);
-
+  --root-bg: linear-gradient( 225deg, hsla(185, 41%, 84%, 1) 0%, hsla(0, 83%, 81%, 1) 100% );
 
   //* custom fonts:
   --inter: 'Inter', sans-serif;
@@ -14,8 +11,7 @@
   --pstp: 'Press Start 2P', cursive, sans-serif;
 
   font-size: var( --root-font-size );
-  background-color: var( --root-bg-color );
-  color-scheme: light dark;
+  background: var( --root-bg );
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,27 +19,6 @@
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-div#root {
-  display: flex;
-  justify-content: center;
-
-  max-height: 100vh;
-  margin: 0 auto;
-  padding: $gap;
-
-  color: var( --root-font-color );
-  font-family: var( --inter );
-  line-height: 1.5;
-
-  @include mobile {
-    padding: 1rem;
-  }
-
-  @include widescreen {
-    max-width: 1280px;
-  }
 }
 
 ::selection {

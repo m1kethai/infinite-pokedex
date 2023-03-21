@@ -1,0 +1,40 @@
+@keyframes flip-in {
+  0%, 100% {
+    transform: rotateX( 0deg );
+  }
+  50% {
+    transform: rotateX( 270deg )
+  }
+}
+
+@keyframes unskew {
+  0% {
+    transform: skewX( -20deg );
+    color: green
+  }
+  10% {
+    transform: skewX( -65deg )
+  }
+  20%, 75% {
+    transform: skewX( -70deg );
+    color: yellow;
+  }
+  85%, 100% {
+    transform: skewX( 0deg );
+    color: #eb2121
+  }
+}
+
+.catchem {
+  &-container {
+    animation: 1s cubic-bezier( 0.4, 0, 1, 1 ) unskew;
+    color: #eb2121;
+    transition: 10ms color;
+  }
+
+  font-size: $size-3;
+  font-family: var( --pstp );
+  text-decoration: underline;
+  color: inherit;
+  animation: 500ms linear flip-in;
+}

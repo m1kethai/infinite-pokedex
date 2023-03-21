@@ -3,7 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 
 import List from './List/List'
 import usePokemonData from '../../hooks/usePokemonData'
-// import './pokedex.scss';
+import './pokedex.scss'
 
 const MAX_VISIBLE_ROWS = 5;
 const POKEMON_ROW_HEIGHT = 80;
@@ -12,7 +12,6 @@ const PREFETCH_LIMIT = 10;
 
 const Pokedex = ({ clearCache }) => {
   const {
-    status,
     error,
     pokemonData,
     pokemonCount,
@@ -27,7 +26,7 @@ const Pokedex = ({ clearCache }) => {
     getScrollElement: () => parentRef.current,
     estimateSize: () => POKEMON_ROW_HEIGHT,
     count: hasNextPage ? pokemonCount + FETCH_LIMIT : pokemonCount,
-    overscan: 1,
+    overscan: 3,
     enableSmoothScroll: true
   })
 
@@ -100,9 +99,7 @@ const Pokedex = ({ clearCache }) => {
               : pokemonData && pokemonCount && renderListContainer()
         } </div>
       </div>
-      <div className='pd-body--bottom'>
-        <div className='catchem'>gotta catch 'em all!</div>
-      </div>
+      <div className='pd-body--bottom'></div>
     </div>
   );
 };

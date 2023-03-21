@@ -1,0 +1,17 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+
+  font-family: var( --inter );
+  color: var( --root-font-color );
+
+  @include widescreen {
+    max-width: 1280px;
+    margin: auto;
+  }
+}
