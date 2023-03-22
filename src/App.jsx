@@ -9,7 +9,8 @@ import './app.scss'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 10 * (60 * 1000)
+      staleTime: 10 * (60 * 1000),
+      cacheTime: 300000
     }
   }
 })
