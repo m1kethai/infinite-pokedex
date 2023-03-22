@@ -14,8 +14,7 @@ const BASE_FETCH_URL = "https://pokeapi.co/api/v2/pokemon";
 const usePokemonData = ( fetchLimit: number ): PokeData => {
   const fetchPageData = async ( pageNo: number ): Promise<PageResp> => {
     const offset = pageNo * fetchLimit;
-    const limit = fetchLimit;
-    const fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${limit}`;
+    const fetchUrl = `${BASE_FETCH_URL}?offset=${offset}&limit=${fetchLimit}`;
 
     const response = await fetch( fetchUrl );
     if ( !response.ok ) {
