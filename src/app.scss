@@ -11,7 +11,9 @@
   color: var( --root-font-color );
 
   @include mobile {
-    padding: 1.5rem;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    padding: $size-4;
   }
 
   @include widescreen {
