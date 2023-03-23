@@ -1,6 +1,6 @@
 .catchem {
   color: inherit;
-  font-size: $size-3;
+  font-size: 2rem;
   font-family: var( --pstp );
   text-align: center;
   animation: 500ms linear flip-in;
@@ -13,7 +13,7 @@
   }
 
   @include mobile {
-    font-size: $size-4;
+    font-size: 1.5rem;
     &-container {
       display: flex;
       align-items: flex-end;

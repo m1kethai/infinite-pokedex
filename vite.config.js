@@ -14,7 +14,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @import "node_modules/bulma/bulma.sass";
+          @import "node_modules/bulma/sass/utilities/mixins.sass";
         `,
       }
     },

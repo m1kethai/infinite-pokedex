@@ -1,14 +1,12 @@
 .pokedex {
-  --pd-color: #bf3737;
-
   --ar: 1.5;
+  --pd-color: #bf3737;
   --pd-width: 65rem;
   --pd-height: min(
     calc( var( --pd-width ) * var( --ar )),
     85vh
   );
   --min-width: 360px;
-
   --margin-v: math.div(
     calc( 100vh - var( --pd-height )),
     2
@@ -17,9 +15,10 @@
 
   display: flex;
   flex-direction: column;
+  flex: 1 0 auto;
 
   width: var( --pd-width );
-  height: var( --pd-height );
+  max-height: var( --pd-height );
   min-width: var( --min-width );
 
   margin: var( --margin-v ) var( --margin-h );
@@ -31,7 +30,7 @@
 
   @include mobile {
     --pd-width: 100%;
-    --margin-h: $size-4;
+    --margin-h: 1.5rem;
   }
 }
 

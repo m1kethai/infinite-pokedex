@@ -13,7 +13,7 @@
   @include mobile {
     flex-direction: column-reverse;
     justify-content: space-between;
-    padding: $size-4;
+    padding: 1.5rem;
   }
 
   @include widescreen {
