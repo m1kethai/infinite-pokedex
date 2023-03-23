@@ -7,10 +7,7 @@
     85vh
   );
   --min-width: 360px;
-  --margin-v: math.div(
-    calc( 100vh - var( --pd-height )),
-    2
-  );
+  --margin-v: math.div( calc( 100vh - var( --pd-height )), 2 );
   --margin-h: auto;
 
   display: flex;
@@ -18,8 +15,9 @@
   flex: 1 0 auto;
 
   width: var( --pd-width );
-  max-height: var( --pd-height );
   min-width: var( --min-width );
+  max-width: var( --pd-width );
+  max-height: var( --pd-height );
 
   margin: var( --margin-v ) var( --margin-h );
 
