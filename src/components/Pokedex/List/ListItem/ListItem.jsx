@@ -41,8 +41,7 @@ const ListItem = ({
         height: `${ itemSize }px`,
         transform: `translateY(${ itemPos }px)`,
       }}> {
-        isLoaderRow
-          ? loaderRow() : (
+        isLoaderRow ? loaderRow() : (
           <div className='list__row__contents'>
             <div className='poke-info'>
               <div className='poke-info__top'>
@@ -54,14 +53,13 @@ const ListItem = ({
                 </span>
               </div>
               <div className='poke-info__bottom'>
-                { pokeTypeTags( pokeDetails.additionalInfo.types ) }
+                { pokeTypeTags( pokeDetails.additionalInfo.types )}
               </div>
             </div>
             <div className='poke-image'>
               <img
                 src={ pokeDetails.imageUrl }
-                alt={`${ pokeDetails.name} sprite`}
-              />
+                alt={`${ pokeDetails.name} sprite`}/>
             </div>
           </div>
         )}

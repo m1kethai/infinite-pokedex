@@ -2,7 +2,6 @@
   color: inherit;
   font-size: $size-3;
   font-family: var( --pstp );
-  text-decoration: underline;
   text-align: center;
   animation: 500ms linear flip-in;
 
@@ -14,10 +13,12 @@
   }
 
   @include mobile {
-    font-size: 1.75rem;
-
+    font-size: $size-4;
     &-container {
-      margin: 0;
+      display: flex;
+      align-items: flex-end;
+      flex: 1;
+      margin-bottom: 1vh;
     }
   }
 }
@@ -38,7 +39,7 @@
     transform: skewX( -65deg )
   } 20%, 75% {
     transform: skewX( -70deg );
-    color: yellow;
+    color: #4085a8;
   } 85%, 100% {
     transform: skewX( 0deg );
     color: #eb2121

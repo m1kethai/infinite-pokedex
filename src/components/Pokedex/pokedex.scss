@@ -2,16 +2,14 @@
   --pd-color: #bf3737;
 
   --ar: 1.5;
-  --min-width: 360px;
-
   --pd-width: 65rem;
   --pd-height: min(
     calc( var( --pd-width ) * var( --ar )),
     85vh
   );
+  --min-width: 360px;
 
-  --margin-v: calc(( 100vh - ( var( --pd-height )) * 0.5 ));
-  --margin-vv: math.div(
+  --margin-v: math.div(
     calc( 100vh - var( --pd-height )),
     2
   );
@@ -24,7 +22,7 @@
   height: var( --pd-height );
   min-width: var( --min-width );
 
-  margin: var( --margin-vv ) var( --margin-h );
+  margin: var( --margin-v ) var( --margin-h );
 
   background-color: var( --pd-color );
   box-shadow: inset 0px 2px 15px 3px black;
@@ -33,7 +31,7 @@
 
   @include mobile {
     --pd-width: 100%;
-    --margin-h: 1.5em;
+    --margin-h: $size-4;
   }
 }
 
