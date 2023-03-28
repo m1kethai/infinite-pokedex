@@ -2,6 +2,8 @@
 
 A reponsive, single-page React web app, featuring a virtualized infinite scroll list component, that contains every single Pokemon to date - with each row displaying the Pokemon's name, ID, sprite & types.
 
+![pokedex-readme-demo](https://user-images.githubusercontent.com/15115669/228356192-4e5a56b0-7ca9-4709-af51-4f75aef7ec3d.gif)
+
 ***
 ## Technologies/Frameworks Used
 
