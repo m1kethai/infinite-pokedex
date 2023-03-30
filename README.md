@@ -1,4 +1,4 @@
-# [Pokede.xyz](Pokede.xyz) - The Ultimate Pokedex
+# [Pokede.xyz](Pokede.xyz)
 
 A reponsive, single-page React web app, featuring a virtualized infinite scroll list component that contains every single Pokemon to date, with each row displaying the Pokemon name, ID, sprite & types.
 
