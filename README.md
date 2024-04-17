@@ -1,4 +1,4 @@
-# [Pokede.xyz](Pokede.xyz)
+# [Infinite Pokedex](catchemall.baby)
 
 A reponsive, single-page React web app, featuring a virtualized infinite scroll list component that contains every single Pokemon to date, with each row displaying the Pokemon name, ID, sprite & types.
 
@@ -33,6 +33,6 @@ A reponsive, single-page React web app, featuring a virtualized infinite scroll 
   - `PREFETCH_IDX` - the number of rows from the bottom of the currently rendered list which, when its position is reached, triggers the next batch of Pokemon to be prefetched (higher values generally result in a longer load-times)
 
 ## Live Demo
-Check out the live demo at <https://pokede.xyz>
+Check out the live demo at <https://catchemall.baby>
 ***
 *Thanks to [pokeapi.co](pokeapi.co) for providing the free Pokemon data API endpoints used in this application.*
